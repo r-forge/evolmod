@@ -79,3 +79,9 @@ RcppExport SEXP trans_prob_to_R(SEXP lambda_01, SEXP lambda_10, SEXP time){
 RcppExport SEXP eigen_decomp_to_R(SEXP lambda_01, SEXP lambda_10, SEXP time){
   return wrap(eigen_decomp(as<double>(lambda_01), as<double>(lambda_10)));
 }
+
+RCPP_MODULE(two_state){ 
+  function( "inf_generator", &inf_generator );
+  function( "trans_prob", &trans_prob );
+  function( "eigen_decomp", &eigen_decomp );
+}

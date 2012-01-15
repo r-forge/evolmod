@@ -5,8 +5,7 @@ Version: 1.0
 Date: 2012-01-05
 Author: Vladimir N. Minin
 Maintainer: Vladimir N. Minin <vminin@uw.edu>
-Description: Provides examples of using Rcpp and RcppArmadillo for 
-phylogenetic inference and comparative biology..
+Description: Provides examples of using Rcpp and RcppArmadillo for phylogenetic inference and comparative biology.
 License: GPL (>= 3)
 LazyLoad: yes
 Depends: Rcpp (>= 0.9.7), RcppArmadillo (>= 0.2.19)
