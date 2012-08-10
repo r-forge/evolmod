@@ -1,0 +1,12 @@
+length: 2100000
+burnin: 10000 
+subsample: 20 
+par_lambda: 5 
+top_lambda: 0.693 
+window_length: 10 
+C: 0.3 
+sigma_alpha: 0.75 
+sigma_mu: 0.75 
+top_breaks: 1 
+par_breaks: 1 
+tree_file: KAL153-input.tre
