@@ -2,7 +2,7 @@ Package: phyloRcppExamples
 Type: Package
 Title: Examples of phylogenetic computations with Rcpp
 Version: 1.0
-Date: 2012-01-05
+Date: 2012-01-06
 Author: Vladimir N. Minin
 Maintainer: Vladimir N. Minin <vminin@uw.edu>
 Description: Provides examples of using Rcpp and RcppArmadillo for phylogenetic inference and comparative biology.
