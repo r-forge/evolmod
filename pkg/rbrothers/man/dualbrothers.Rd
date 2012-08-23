@@ -4,12 +4,12 @@
 \description{
   DualBrothers generates a posterior sample based on the dual Multiple Change-Point model.
 }
-\usage{dualbrothers(seed,alignment,format,window.size,basename=alignment,length=2100000,burnin=100000,subsample=200,par_lambda=5,top_lambda=0.693,window_length=10,C=0.3,sigma_alpha=0.75,sigma_mu=0.75,subst_hyper_mean=-1,subst_hyper_variance=-1,diver_hyper_mean=-1,diver_hyper_variance=-1,top_breaks=1,par_breaks=1, step.size = 10)}
+\usage{dualbrothers(seed,alignment,format="interleaved",window.size=NULL,basename=alignment,length=2100000,burnin=100000,subsample=200,par_lambda=5,top_lambda=0.693,window_length=10,C=0.3,sigma_alpha=0.75,sigma_mu=0.75,subst_hyper_mean=-1,subst_hyper_variance=-1,diver_hyper_mean=-1,diver_hyper_variance=-1,top_breaks=1,par_breaks=1, step.size = 10)}
 \arguments{
   \item{seed}{integer used to seed the pseudo-random number generator (required)}
   \item{alignment}{a string in quotes ("alignment") that requires the alignment.fasta file or the alignment.phy file to be in the current working directory (required)}
-  \item{format}{a string, either "fasta" or "interleaved" (required)}
-  \item{window.size}{a vector of positive integers indicating the widths of the windows (in base pairs) used to create the set of candidate trees (required)}
+  \item{format}{a string, either "fasta" or "interleaved"}
+  \item{window.size}{a vector of positive integers indicating the widths of the windows (in base pairs) used to create the set of candidate trees (required if the number of taxa is greater than 6)}
   \item{basename}{a string in quotes ("basename") to be used for output files}
   \item{length}{a positive integer indicating the total number of samples to generate}
   \item{burnin}{a positive integer indicating the number of initial samples to discard}

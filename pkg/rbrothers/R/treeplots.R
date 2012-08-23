@@ -23,7 +23,7 @@ for(i in 1:treenum){
 }
 
 #### maximum number of trees to plot can be changed here (default 12)
-miny<-max(min(treenum,numplot),2)
+miny<-max(min(treenum,numplot),1)
 palette(rainbow(max(treenum,2)))
 #palette(rainbow(miny))
 

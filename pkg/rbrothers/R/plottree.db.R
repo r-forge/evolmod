@@ -1,4 +1,4 @@
-"plottree.db" <- function(x,numplot=12,makepng="FALSE") {
+"plottree.db" <- function(x,numplot=4,makepic="FALSE",ext="png") {
 
 library(ape)
 
@@ -8,14 +8,15 @@ profile<-x[[3]]
 treenum<-length(x[[6]])
 trees<-x[[6]]
 
-miny<-max(min(treenum,numplot),2)
+miny<-max(min(treenum,numplot),1)
 palette(rainbow(max(treenum,2)))
 
 
-if(makepng=="TRUE"){
+if(makepic=="TRUE"){
 if(treenum==1){miny<-1}
 if(numplot==1){miny<-1}
-png(paste(basename,".plot2",".png",sep=""))
+if(ext=="png"){png(paste(basename,".plot2",".png",sep=""))}
+if(ext=="pdf"){pdf(paste(basename,".plot2",".png",sep=""))}
 par(mfrow=c(ceiling(sqrt(miny)),ceiling(miny/(ceiling(sqrt(miny))))))
 for(i in 1:miny){
  plot.phylo(trees[[i]],edge.width=3,edge.col=i)

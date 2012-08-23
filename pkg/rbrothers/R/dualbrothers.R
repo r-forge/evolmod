@@ -1,5 +1,4 @@
-"dualbrothers"<- function(seed,alignment,format,window.size,basename=alignment,length=2100000,burnin=100000,subsample=200,par_lambda=5,top_lambda=0.693,window_length=10,C=0.3,sigma_alpha=0.75,sigma_mu=0.75,subst_hyper_mean=-1,subst_hyper_variance=-1,diver_hyper_mean=-1,diver_hyper_variance=-1,top_breaks=1,par_breaks=1,step.size=10,boot=0){
-
+"dualbrothers"<- function(seed,alignment,format="interleaved",window.size=NULL,basename=alignment,length=2100000,burnin=100000,subsample=200,par_lambda=5,top_lambda=0.693,window_length=10,C=0.3,sigma_alpha=0.75,sigma_mu=0.75,subst_hyper_mean=-1,subst_hyper_variance=-1,diver_hyper_mean=-1,diver_hyper_variance=-1,top_breaks=1,par_breaks=1,step.size=10,boot=0){
   
    options(scipen = 100)
 
@@ -191,6 +190,11 @@ my.counter = 1
 
 if(taxa.num>6){
 
+ if(window.size==NULL){
+  print("'window.size' is missing")
+  return()
+ }
+
 for(ws in 1:length(window.size)){
  window.start = 1
  window.end = window.start + window.size[ws] -1
@@ -225,10 +229,10 @@ if(boot>0){
 cleaned.sw.trees = unique(sw.trees)
 }
 
-if(taxa.num==6){cleaned.sw.trees = read.tree(paste(system.file(package="dualbrothers"),"/extdata/smalltrees/six-input.tre",sep=""))}
-if(taxa.num==5){cleaned.sw.trees = read.tree(paste(system.file(package="dualbrothers"),"/extdata/smalltrees/five-input.tre",sep=""))}
-if(taxa.num==4){cleaned.sw.trees = read.tree(paste(system.file(package="dualbrothers"),"/extdata/smalltrees/four-input.tre",sep=""))}
-if(taxa.num==3){cleaned.sw.trees = read.tree(paste(system.file(package="dualbrothers"),"/extdata/smalltrees/three-input.tre",sep=""))}
+if(taxa.num==6){cleaned.sw.trees = read.tree(paste(system.file(package="rbrothers"),"/extdata/smalltrees/six-input.tre",sep=""))}
+if(taxa.num==5){cleaned.sw.trees = read.tree(paste(system.file(package="rbrothers"),"/extdata/smalltrees/five-input.tre",sep=""))}
+if(taxa.num==4){cleaned.sw.trees = read.tree(paste(system.file(package="rbrothers"),"/extdata/smalltrees/four-input.tre",sep=""))}
+if(taxa.num==3){cleaned.sw.trees = read.tree(paste(system.file(package="rbrothers"),"/extdata/smalltrees/three-input.tre",sep=""))}
 
 tree.num = length(cleaned.sw.trees)
 
