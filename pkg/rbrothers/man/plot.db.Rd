@@ -11,7 +11,6 @@
   \item{ext}{a string, either "png" or "pdf", when makepic is TRUE determines what type of file to produce}
   \item{seetrees}{a string, either "FALSE" or "TRUE", if "TRUE" the second plot show the trees instead of the posterior probability of a breakpoint}
   \item{numplot}{an integer, determines the number of trees to display in the second plot (only used if seestrees is "TRUE")}
-  \item{type}{a string specifying the type of phylogeny to be drawn; it must be one of "phylogram" (the default),
-          "cladogram", "fan", "unrooted", "radial" or any unambiguous abbreviation of these (only used if seestrees is "TRUE")}
+  \item{type}{a string specifying the type of phylogeny to be drawn; it must be one of "phylogram", "cladogram", "fan", "unrooted", "radial" or any unambiguous abbreviation of these (only used if seestrees is "TRUE")}
 }
-\value{Two plots}
+\value{Two posterior probability plots}

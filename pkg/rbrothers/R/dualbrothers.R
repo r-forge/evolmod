@@ -279,6 +279,7 @@ for(i in 1:treenum){
 
 tbr<-list(basename,probs,profile,P,breaks,trees)
 class(tbr)<-"db"
+names(tbr)<-c("basename","TopologyProfile","EPProfile","numberofsequences","breakpoints","trees")
 return(tbr)
 
 }

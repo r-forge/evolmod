@@ -1,4 +1,4 @@
-"plottree.db" <- function(x,numplot=4,makepic="FALSE",ext="png") {
+"plottree.db" <- function(x,numplot=4,makepic="FALSE",ext="png",type="unrooted") {
 
 library(ape)
 
@@ -19,14 +19,14 @@ if(ext=="png"){png(paste(basename,".plot2",".png",sep=""))}
 if(ext=="pdf"){pdf(paste(basename,".plot2",".png",sep=""))}
 par(mfrow=c(ceiling(sqrt(miny)),ceiling(miny/(ceiling(sqrt(miny))))))
 for(i in 1:miny){
- plot.phylo(trees[[i]],edge.width=3,edge.col=i)
+ plot.phylo(trees[[i]],edge.width=3,edge.col=i,type=type)
 }
 dev.off()
 }
 
 par(mfrow=c(ceiling(sqrt(miny)),ceiling(miny/(ceiling(sqrt(miny))))))
 for(i in 1:miny){
- plot.phylo(trees[[i]],edge.width=3,edge.col=i)
+ plot.phylo(trees[[i]],edge.width=3,edge.col=i,type=type)
 }
 
 
