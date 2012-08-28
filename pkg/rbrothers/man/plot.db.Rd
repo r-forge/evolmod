@@ -4,7 +4,7 @@
 \description{
   This function creates two plots from a DualBrothers object. The first plots the posterior probability of each tree as a function of base pair position. The second plots the posterior probability of a break point as a function of base pair position.
 }
-\usage{plot.db(x,makepic="FALSE",ext="png",seetrees="FALSE",numplot=4)}
+\usage{plot.db(x,makepic="FALSE",ext="png",seetrees="FALSE",numplot=4,typ="unrooted")}
 \arguments{
   \item{x}{a DualBrothers object}
   \item{makepic}{a string, either "FALSE" or "TRUE", if "TRUE" the two plots are outputted into a .png file in the current working directory}

@@ -277,9 +277,40 @@ for(i in 1:treenum){
  }
 }
 
-tbr<-list(basename,probs,profile,P,breaks,trees)
+####
+#### read the .post file to find the number of topology breakpoints and log likelihoods
+####
+
+lineiloglik<-function(linei){return(sum(as.numeric(linei[5+8*(0:(as.numeric(linei[2])-1))])))}
+
+lineinumbrkpnts<-function(linei){
+ numchgpnts<-as.numeric(linei[2])
+ ts1<-linei[4]
+ returnme<-0
+ for(i in 2:numchgpnts){
+  if(!linei[4+8*(i-2)]==linei[4+8*(i-1)]){returnme<-returnme+1}
+ }
+ return(returnme)
+}
+
+loglikes<-NULL
+numbrkpnts<-NULL
+ll <- readLines(paste(basename,".post",sep=""))
+
+for(i in 1:length(ll)){
+ ii = unlist(strsplit(ll[[i]]," "))
+ ii = ii[which(sapply(ii,nchar,USE.NAMES=FALSE)!=0)]
+ loglikes[i]<-lineiloglik(ii)
+ numbrkpnts[i]<-lineinumbrkpnts(ii)
+}
+
+####
+####
+####
+
+tbr<-list(basename,probs,profile,P,breaks,trees,par_lambda,top_lambda,sigma_alpha,sigma_mu,top_breaks,par_breaks,loglikes,numbrkpnts)
 class(tbr)<-"db"
-names(tbr)<-c("basename","TopologyProfile","EPProfile","numberofsequences","breakpoints","trees")
+names(tbr)<-c("basename","TopologyProfile","EPProfile","numberofsequences","breakpoints","trees","par_lambda","top_lambda","sigma_alpha","sigma_mu","top_breaks","par_breaks","MCMC_log_likelihood","MCMC_number_of_break_points")
 return(tbr)
 
 }
