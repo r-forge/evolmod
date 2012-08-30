@@ -16,15 +16,20 @@ for(i in 1:treenum){
  }
 }
 
-cmd<-scan(paste(basename,".cmdfile",sep=""),what='raw',nlines=32)
-for(i in 1:(length(cmd)/2)){
- if(cmd[2*(i-1)+1]=="par_lambda:"){par_lambda<-as.numeric(cmd[2*i])}
- if(cmd[2*(i-1)+1]=="top_lambda:"){top_lambda<-as.numeric(cmd[2*i])}
- if(cmd[2*(i-1)+1]=="sigma_alpha:"){sigma_alpha<-as.numeric(cmd[2*i])}
- if(cmd[2*(i-1)+1]=="sigma_mu:"){sigma_mu<-as.numeric(cmd[2*i])}
- if(cmd[2*(i-1)+1]=="top_breaks:"){top_breaks<-as.numeric(cmd[2*i])}
- if(cmd[2*(i-1)+1]=="par_breaks:"){par_breaks<-as.numeric(cmd[2*i])}
-}
+#### read the command file
+cmdf<-read.table(paste(basename,".cmdfile",sep=""))
+####
+
+
+#cmd<-scan(paste(basename,".cmdfile",sep=""),what='raw',nlines=32)
+#for(i in 1:(length(cmd)/2)){
+# if(cmd[2*(i-1)+1]=="par_lambda:"){par_lambda<-as.numeric(cmd[2*i])}
+# if(cmd[2*(i-1)+1]=="top_lambda:"){top_lambda<-as.numeric(cmd[2*i])}
+# if(cmd[2*(i-1)+1]=="sigma_alpha:"){sigma_alpha<-as.numeric(cmd[2*i])}
+# if(cmd[2*(i-1)+1]=="sigma_mu:"){sigma_mu<-as.numeric(cmd[2*i])}
+# if(cmd[2*(i-1)+1]=="top_breaks:"){top_breaks<-as.numeric(cmd[2*i])}
+# if(cmd[2*(i-1)+1]=="par_breaks:"){par_breaks<-as.numeric(cmd[2*i])}
+#}
 
 
 ####
@@ -58,8 +63,8 @@ for(i in 1:length(ll)){
 ####
 ####
 
-tbr<-list(basename,probs,profile,P,breaks,trees,par_lambda,top_lambda,sigma_alpha,sigma_mu,top_breaks,par_breaks,loglikes,numbrkpnts)
+tbr<-list(basename,probs,profile,P,breaks,trees,cmdf,loglikes,numbrkpnts)
 class(tbr)<-"db"
-names(tbr)<-c("basename","TopologyProfile","EPProfile","numberofsequences","breakpoints","trees","par_lambda","top_lambda","sigma_alpha","sigma_mu","top_breaks","par_breaks","MCMC_log_likelihood","MCMC_number_of_break_points")
+names(tbr)<-c("basename","TopologyProfile","EPProfile","numberofsequences","breakpoints","trees","command_file","MCMC_log_likelihood","MCMC_number_of_break_points")
 return(tbr)
 }

@@ -308,9 +308,13 @@ for(i in 1:length(ll)){
 ####
 ####
 
-tbr<-list(basename,probs,profile,P,breaks,trees,par_lambda,top_lambda,sigma_alpha,sigma_mu,top_breaks,par_breaks,loglikes,numbrkpnts)
+#### read the command file
+cmdf<-read.table(paste(basename,".cmdfile",sep=""))
+####
+
+tbr<-list(basename,probs,profile,P,breaks,trees,cmdf,loglikes,numbrkpnts)
 class(tbr)<-"db"
-names(tbr)<-c("basename","TopologyProfile","EPProfile","numberofsequences","breakpoints","trees","par_lambda","top_lambda","sigma_alpha","sigma_mu","top_breaks","par_breaks","MCMC_log_likelihood","MCMC_number_of_break_points")
+names(tbr)<-c("basename","TopologyProfile","EPProfile","numberofsequences","breakpoints","trees","command_file","MCMC_log_likelihood","MCMC_number_of_break_points")
 return(tbr)
 
 }
