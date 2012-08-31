@@ -190,7 +190,7 @@ my.counter = 1
 
 if(taxa.num>6){
 
- if(window.size==NULL){
+ if(is.null(window.size)){
   print("'window.size' is missing")
   return()
  }

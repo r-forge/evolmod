@@ -5,7 +5,7 @@ Title: DualBrothers
 Author: Vladimir Minin, Jan Irvahn
 Maintainer: Jan Irvahn <ji26@uw.edu>
 Description: A package to run DualBrothers inside R.
-Depends: R (>= 2.7.0), rJava (>= 0.5-0), ape
+Depends: R (>= 2.7.0), rJava (>= 0.5-0), ape, coda
 SystemRequirements: Java (>= 1.5)
 License: GPL-3
 Packaged: 2011-05-07 19:07:40 UTC; student
