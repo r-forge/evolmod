@@ -9,7 +9,7 @@ treenum<-length(x[[6]])
 trees<-x[[6]]
 
 miny<-max(min(treenum,numplot),1)
-palette(rainbow(max(treenum,2)))
+#palette(rainbow(max(treenum,2)))
 
 
 if(makepic=="TRUE"){

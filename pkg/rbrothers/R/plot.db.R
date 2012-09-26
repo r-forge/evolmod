@@ -12,7 +12,7 @@ treenum<-length(x[[6]])
 trees<-x[[6]]
 
 miny<-max(treenum,2)
-palette(rainbow(miny))
+#palette(rainbow(miny))
 
 #### plot some probabilities
 
