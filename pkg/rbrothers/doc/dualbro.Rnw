@@ -18,11 +18,6 @@ get started, install the dualbrothers R package from the directory that contains
 \begin{verbatim}
 R CMD INSTALL dualbrothers
 \end{verbatim}
-Copy the extdata directory from the default R installation folder to your current location and change your directory into the KAL153 folder.
-\begin{verbatim}
-cp <path-to-R-packages>/dualbrothers/extdata .
-cd extdata/KAL153/					    
-\end{verbatim}
 
 Start R and load the dualbrothers library.
 
@@ -30,19 +25,26 @@ Start R and load the dualbrothers library.
 library(dualbrothers)
 @
 
-Now you can run dualbrothers with a single command.
+Copy the KAL153.phy file from the rbrothers package to your current working directory.
 <<two>>=
-db<-dualbrothers(123,"KAL153",format="interleaved",window.size=400)
+my.align = read.dna(file=system.file("extdata/KAL153/KAL153.phy",package="rbrothers"))
+write.dna(my.align,"KAL153.phy")
 @
 
-Plots can be created with the following workflow.
+Now you can run dualbrothers with a single command.
 <<three>>=
+db<-dualbrothers(123,"KAL153",format="interleaved")
+@
+
+Plots can be created with the following commands.
+<<four>>=
 plot(db,TRUE)
 plottree.db(db,12,TRUE)
 @
 
 \includegraphics[width=70mm]{KAL153p1.png}
 \includegraphics[width=70mm]{KAL153p2.png}
+
 
 \end{document}
 
