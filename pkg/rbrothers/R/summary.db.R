@@ -12,7 +12,7 @@ for(i in 1:(dim(x$command_file)[1])){
 
 ### Bayes factor calculation:
 bf<-(sum(x$MCMC_number_of_break_points>0)/sum(x$MCMC_number_of_break_points==0))/(exp(top_lambda)-1)
-if(bf!=Inf) bf<-round(bf,2)
+if(bf!=Inf) bf<-signif(bf,2)
 ###
 
 cat(paste("DualBrothers output for",x[[1]]),"\n")
