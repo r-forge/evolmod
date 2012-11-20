@@ -10,19 +10,19 @@
 
 \begin{document}
 
-\title{A DualBrothers Demo}
+\title{An rbrothers Demo}
 \maketitle
 
 This is a demo for using the java program, DualBrothers, in R.  To
-get started, install the dualbrothers R package from the directory that contains the dualbrothers\_0.0-1.tar.gz file. The rJava package will need to be installed.
+get started, install the rbrothers R package from the directory that contains the rbrothers\_0.0-1.tar.gz file. The rJava package will need to be installed.
 \begin{verbatim}
-R CMD INSTALL dualbrothers
+R CMD INSTALL rbrothers
 \end{verbatim}
 
-Start R and load the dualbrothers library.
+Start R and load the rbrothers library.
 
 <<one>>=
-library(dualbrothers)
+library(rbrothers)
 @
 
 Copy the KAL153.phy file from the rbrothers package to your current working directory.
