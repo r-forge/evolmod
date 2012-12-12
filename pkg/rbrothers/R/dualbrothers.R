@@ -287,9 +287,7 @@ lineinumbrkpnts<-function(linei){
  numchgpnts<-as.numeric(linei[2])
  ts1<-linei[4]
  returnme<-0
- for(i in 2:numchgpnts){
-  if(!linei[4+8*(i-2)]==linei[4+8*(i-1)]){returnme<-returnme+1}
- }
+ if(numchgpnts>1) for(i in 2:numchgpnts) if(!linei[4+8*(i-2)]==linei[4+8*(i-1)]){returnme<-returnme+1}
  return(returnme)
 }
 
