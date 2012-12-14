@@ -1,4 +1,4 @@
-"dualbrothers"<- function(seed,alignment,format="interleaved",window.size=NULL,basename=alignment,length=2100000,burnin=100000,subsample=200,par_lambda=5,top_lambda=0.693,window_length=10,C=0.3,sigma_alpha=0.75,sigma_mu=0.75,subst_hyper_mean=-1,subst_hyper_variance=-1,diver_hyper_mean=-1,diver_hyper_variance=-1,top_breaks=1,par_breaks=1,step.size=10,boot=0){
+"dualbrothers"<- function(seed,alignment,format="interleaved",window.size=NULL,basename=alignment,length=2100000,burnin=100000,subsample=200,par_lambda=5,top_lambda=0.693,window_length=10,C=0.3,sigma_alpha=0.75,sigma_mu=0.75,subst_hyper_mean=-1,subst_hyper_variance=-1,diver_hyper_mean=-1,diver_hyper_variance=-1,top_breaks=1,par_breaks=1,step.size=10,boot=0,inputtrees=NULL){
   
    options(scipen = 100)
 
@@ -188,6 +188,7 @@ rownames(small.align) = c(1:taxa.num)-1
 sw.trees = list(1)
 my.counter = 1
 
+if(is.null(inputtrees)) {
 if(taxa.num>6){
 
  if(is.null(window.size)){
@@ -233,6 +234,9 @@ if(taxa.num==6){cleaned.sw.trees = read.tree(paste(system.file(package="rbrother
 if(taxa.num==5){cleaned.sw.trees = read.tree(paste(system.file(package="rbrothers"),"/extdata/smalltrees/five-input.tre",sep=""))}
 if(taxa.num==4){cleaned.sw.trees = read.tree(paste(system.file(package="rbrothers"),"/extdata/smalltrees/four-input.tre",sep=""))}
 if(taxa.num==3){cleaned.sw.trees = read.tree(paste(system.file(package="rbrothers"),"/extdata/smalltrees/three-input.tre",sep=""))}
+}
+
+if(!is.null(inputtrees)) cleaned.sw.trees<-unique(read.tree(inputtrees))
 
 tree.num = length(cleaned.sw.trees)
 
@@ -245,6 +249,10 @@ temp.tree = read.tree(paste(basename,"-input.tre",sep=""))
 unique.trees = unique(temp.tree)
 write.tree(unique.trees, file=paste(basename,"-input.tre",sep=""))
 
+if(length(unique.trees)<3) {
+ print("Tree list must have at least 3 trees. Try the bootstrap argument, see help(dualbrothers).")
+ return()
+}
 
    cat(paste("tree_file: ",basename,"-input.tre",sep=""), file = paste(basename,".cmdfile",sep=""),append=TRUE)
    dbs <- .jnew("DualBrothersForR")
