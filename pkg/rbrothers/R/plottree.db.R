@@ -1,4 +1,4 @@
-"plottree.db" <- function(x,numplot=4,makepic="FALSE",ext="png",type="unrooted") {
+"plottree.db" <- function(x,numplot=4,makepic="FALSE",ext="png",type="unrooted",colors=NULL,ppt=0) {
 
 library(ape)
 
@@ -9,8 +9,16 @@ treenum<-length(x[[6]])
 trees<-x[[6]]
 
 miny<-max(min(treenum,numplot),1)
-#palette(rainbow(max(treenum,2)))
-
+if(!is.null(colors)){palette(colors)}
+columns<-c(2:(dim(probs)[2]))
+if(ppt>0){
+ columns<-NULL
+ for(i in 2:(dim(probs)[2])){
+  if((sum(probs[,i]>ppt))>0) columns<-c(columns,i)
+ }
+ numplot=length(columns)
+ miny<-numplot
+}
 
 if(makepic=="TRUE"){
 if(treenum==1){miny<-1}
@@ -19,14 +27,14 @@ if(ext=="png"){png(paste(basename,".plot2",".png",sep=""))}
 if(ext=="pdf"){pdf(paste(basename,".plot2",".pdf",sep=""))}
 par(mfrow=c(ceiling(sqrt(miny)),ceiling(miny/(ceiling(sqrt(miny))))))
 for(i in 1:miny){
- plot.phylo(trees[[i]],edge.width=3,edge.col=i,type=type)
+ plot.phylo(trees[[columns[i]]],edge.width=3,edge.col=i,type=type)
 }
 dev.off()
 }
 
 par(mfrow=c(ceiling(sqrt(miny)),ceiling(miny/(ceiling(sqrt(miny))))))
 for(i in 1:miny){
- plot.phylo(trees[[i]],edge.width=3,edge.col=i,type=type)
+ plot.phylo(trees[[columns[i]]],edge.width=3,edge.col=i,type=type)
 }
 
 
