@@ -1,4 +1,4 @@
-"plottree.db" <- function(x,numplot=4,makepic="FALSE",ext="png",type="unrooted",colors=NULL,ppt=0) {
+"plottree.db" <- function(x,numplot=4,makepic="FALSE",ext="png",type="unrooted",colors=NULL,threshold=0) {
 
 library(ape)
 
@@ -11,10 +11,10 @@ trees<-x[[6]]
 miny<-max(min(treenum,numplot),1)
 if(!is.null(colors)){palette(colors)}
 columns<-c(2:(dim(probs)[2]))
-if(ppt>0){
+if(threshold>0){
  columns<-NULL
  for(i in 2:(dim(probs)[2])){
-  if((sum(probs[,i]>ppt))>0) columns<-c(columns,i)
+  if((sum(probs[,i]>threshold))>0) columns<-c(columns,i)
  }
  numplot=length(columns)
  miny<-numplot

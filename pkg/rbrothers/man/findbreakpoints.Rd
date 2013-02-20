@@ -6,7 +6,7 @@
 }
 \usage{findbreakpoints("basename")}
 \arguments{
-  \item{basename}{a string in quotes ("basename") that requires the basename.topoprob file to be in the current working directory}
+  \item{basename}{a string in quotes that requires the basename.topoprob file to be in the current working directory}
 }
 \details{Findbreakpoints returns a vector containing the site numbers where the posterior probability of the largest tree changes.) 
 }

@@ -1,5 +1,6 @@
 
-"recombinationplots"<-function(basename,visualize="FALSE"){
+"recombinationplots"<-function(x,visualize="FALSE"){
+basename<-x$basename
 library(ape)
 probs<-read.table(paste(basename,".topoprob",sep=""))
 profile<-read.table(paste(basename,".profile",sep=""))

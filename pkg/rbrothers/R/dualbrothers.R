@@ -274,7 +274,6 @@ names<-NULL
 for(i in 1:P){
 names[i]<-(scan(paste(basename,".phy",sep=""),what='raw',nlines=1,skip=i)[1])
 }
-
 breaks<-findbreakpoints(basename)
 
 #### read in the trees
@@ -320,6 +319,7 @@ for(i in 1:length(ll)){
 #### read the command file
 cmdf<-read.table(paste(basename,".cmdfile",sep=""))
 ####
+
 
 tbr<-list(basename,probs,profile,P,breaks,trees,cmdf,loglikes,numbrkpnts)
 class(tbr)<-"db"

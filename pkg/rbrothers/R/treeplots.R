@@ -1,5 +1,6 @@
 
-"treeplots"<-function(basename,numplot=12,visualize="FALSE"){
+"treeplots"<-function(x,numplot=12,visualize="FALSE"){
+basename<-x$basename
 library(ape)
 probs<-read.table(paste(basename,".topoprob",sep=""))
 profile<-read.table(paste(basename,".profile",sep=""))
