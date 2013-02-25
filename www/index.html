@@ -1,0 +1,93 @@
+<html>
+  <head>
+    <LINK REL=StyleSheet HREF="markov.css" TYPE="text/css">
+    <title>evolmod: R packages for evolutionary modeling</title>
+  </head>
+  
+  <body>
+  
+	<h2>1. R package: rbrothers</h2>
+	  
+	  <b>Developers</b>:
+	  <a href="http://www.stat.washington.edu/people/people.php?id=359" target="_blank">Jan Irvahn</a>,
+	  <a href="http://www.stat.washington.edu/vminin/" target="_blank">Vladimir Minin</a><br><br>
+	  	
+	  <b>Contact</b>: <a href="http://www.stat.washington.edu/vminin/" target="_blank">Vladimir Minin</a>,
+	  <img SRC = "email.png" BORDER = "0"> <br><br>
+	  
+	  <b>Overview</b>: R package rbrothers provides easy access to recombination detection software 
+	  <a href="http://faculty.biomath.ucla.edu/msuchard/htdocs/DualBrothers/" target="_blank">DualBrothers</a>.
+	  <br><br>
+	  
+	  <b>Source code</b> (anonymous subversion access): <pre>svn checkout svn://scm.r-forge.r-project.org/svnroot/evolmod/pkg/rbrothers</pre>
+
+Source code of DualBrothers is available <a href="http://code.google.com/p/dual-brothers/" target="_blank">here</a>.<br><br>
+
+	  
+	  <b>Installation</b>: In R terminal, type 
+<pre> install.packages("rbrothers", repos="http://R-Forge.R-project.org")</pre> 
+Make sure you have the latest version of R. Among other dependencies, rbrothers relies on <a href="http://cran.r-project.org/web/packages/rJava/index.html" target="_blank">rJava</a> package, which
+in turn requires access to Java Development Kit (JDK). See 
+<a href="http://www.rforge.net/rJava/" target="_blank">rJava web page</a> for more details. 
+
+      
+      &nbsp <br><br>
+
+	<b>Demos</b>: We provide the following scripts demonstrating the usage of the package.
+	<ol>
+	  <li> E. coli <i>fimH</i> (runs for about 2 minutes): 
+	 <pre>
+	  demo("fimH_example", package="rbrothers")
+	 </pre>
+
+	  <li> Salmonella <i>fimH</i> and <i>fimA</i> (<font size="3" color="red">Warning</font>: runs for several hours, 
+	      because the number of MCMC iterations is set to 50 M): 	
+	 <pre>
+	  demo("salmonella_example", package="rbrothers")
+	 </pre>
+	</ol>
+	For a list of demos available in the package, type 
+	<pre>
+	  demo(package="rbrothers")
+	</pre>
+
+	
+      <b>References</b>:<br>
+      <ul> 
+	<li> Minin VN, Dorman KS, Suchard MA.
+	 <a href ="http://bioinformatics.oxfordjournals.org/content/21/13/3034.long" target="_blank">Dual 
+	 multiple change-point model leads to more accurate recombination detection</a>, 
+	 <i>Bioinformatics</i>, 21:3034-3042, 2005.
+	<li> Suchard MA, Weiss RE, Dorman KS and Sinsheimer JS.
+         <a href="http://www.tandfonline.com/doi/abs/10.1198/016214503000215" target="_blank">Inferring spatial 
+	 phylogenetic variation along nucleotide sequences: 
+	 a multiple change-point model</a>, <i>Journal of the American Statistical Association</i> 
+	 98:427-437, 2003.
+	<li> Suchard MA, Weiss RE, Dorman KS and Sinsheimer JS.
+	 <a href="http://sysbio.oxfordjournals.org/content/51/5/715.long" target="_blank">Oh brother, 
+	 where art thou? a Bayes factor test for recombination 
+	 with uncertain heritage</a>, 
+	 <i>Systematic Biology</i> 51:715-728, 2002.
+      </ul>
+
+      
+	<h2>2. R package: phyloRcppExamples </h2>    
+	  <b>Developers</b>:
+	  <a href="http://www.stat.washington.edu/vminin/" target="_blank">Vladimir Minin</a><br><br>
+	  	
+	  <b>Contact</b>: <a href="http://www.stat.washington.edu/vminin/" target="_blank">Vladimir Minin</a>,
+	  <img SRC = "email.png" BORDER = "0"> <br><br>
+	  
+	  <b>Overview</b>: R package phyloRcppExamples illustrates how to implement some calculations required
+for phylogenetic inference using a combination of R and C++ code, using Rcpp package. Currently, the only useful 
+example is a </a href="http://markovjumps.blogspot.com/2012/01/packaging-and-exposing-rcpp-functions.html" target="_blank">phylogenetic likelihood calculator</a>.<br><br>
+	  
+	  <b>Source code</b> (anonymous subversion access): <pre>svn checkout svn://scm.r-forge.r-project.org/svnroot/evolmod/pkg/phyloRcppExamples</pre>
+
+
+      <!-- Created: Sun May 11 10:28:57 PDT 2003 -->
+      <!-- hhmts start -->
+      Last modified: Feb, 2013
+      <!-- hhmts end -->
+  </body>
+</html>
