@@ -50,7 +50,11 @@ in turn requires access to Java Development Kit (JDK). See
 	<pre>
 	  demo(package="rbrothers")
 	</pre>
-
+	If you want to copy and modify one of the demo R scripts, you can use the system.file() command to find the location
+	of the script in your tree directory:
+	<pre>
+	  system.file("demo", "fimH_example.R", package="rbrothers")	  
+	</pre>
 	
       <b>References</b>:<br>
       <ul> 
