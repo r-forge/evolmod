@@ -16,7 +16,8 @@
 	  <img SRC = "email.png" BORDER = "0"> <br><br>
 	  
 	  <b>Overview</b>: R package rbrothers provides easy access to recombination detection software 
-	  <a href="http://faculty.biomath.ucla.edu/msuchard/htdocs/DualBrothers/" target="_blank">DualBrothers</a>.
+	  <a href="http://faculty.biomath.ucla.edu/msuchard/htdocs/DualBrothers/" target="_blank">DualBrothers</a>
+	  and provides new functionality for pre-processing sequence data and post-processing DualBrothers output.
 	  <br><br>
 	  
 	  <b>Source code</b> (anonymous subversion access): <pre>svn checkout svn://scm.r-forge.r-project.org/svnroot/evolmod/pkg/rbrothers</pre>
@@ -40,7 +41,7 @@ in turn requires access to Java Development Kit (JDK). See
 	  demo("fimH_example", package="rbrothers")
 	 </pre>
 
-	  <li> Salmonella <i>fimH</i> and <i>fimA</i> (<font size="3" color="red">Warning</font>: runs for at least an hour, because MCMC was not mising well, so the number of iterations was bumped to 51 M): 	
+	  <li> Salmonella <i>fimH</i> and <i>fimA</i> (<font size="3" color="red">Warning</font>: runs for a couple of hours, because MCMC was mixing poorly, so the number of iterations was bumped to 51 M): 	
 	 <pre>
 	  demo("salmonella_example", package="rbrothers")
 	 </pre>
