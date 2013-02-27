@@ -42,8 +42,8 @@ plot(db,TRUE)
 plottree.db(db,12,TRUE)
 @
 
-\includegraphics[width=70mm]{KAL153p1.png}
-\includegraphics[width=70mm]{KAL153p2.png}
+\includegraphics[width=70mm]{KAL153plot1.png}
+\includegraphics[width=70mm]{KAL153plot2.png}
 
 
 \end{document}
