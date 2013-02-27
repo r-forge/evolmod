@@ -28,8 +28,8 @@ if(threshold>0){
 
 #### first plots written to file
 if(makepic=="TRUE"){
-if(ext=="png"){png(paste(basename,".plot1.",ext,sep=""))}
-if(ext=="pdf"){pdf(paste(basename,".plot1.",ext,sep=""))}
+if(ext=="png"){png(paste(basename,"plot1.",ext,sep=""))}
+if(ext=="pdf"){pdf(paste(basename,"plot1.",ext,sep=""))}
 if(seetrees=="FALSE"){par(mfrow=c(2,1))}
 if(seetrees=="TRUE"){
  
