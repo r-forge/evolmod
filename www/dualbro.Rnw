@@ -1,0 +1,50 @@
+
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{comment}
+\usepackage{amscd}
+\usepackage[tableposition=top]{caption}
+\usepackage{ifthen}
+\usepackage[utf8]{inputenc}
+
+\begin{document}
+
+\title{An rbrothers Demo}
+\maketitle
+
+This is a demo for using the java program, DualBrothers, in R.  To
+get started, install the rbrothers R package from the directory that contains the rbrothers\_0.0-1.tar.gz file. The rJava package will need to be installed.
+\begin{verbatim}
+R CMD INSTALL rbrothers
+\end{verbatim}
+
+Start R and load the rbrothers library.
+
+<<one>>=
+library(rbrothers)
+@
+
+Copy the KAL153.phy file from the rbrothers package to your current working directory.
+<<two>>=
+my.align = read.dna(file=system.file("extdata/KAL153/KAL153.phy",package="rbrothers"))
+write.dna(my.align,"KAL153.phy")
+@
+
+Now you can run dualbrothers with a single command.
+<<three>>=
+db<-dualbrothers(123,"KAL153",format="interleaved")
+@
+
+Plots can be created with the following commands.
+<<four>>=
+plot(db,TRUE)
+plottree.db(db,12,TRUE)
+@
+
+\includegraphics[width=70mm]{KAL153plot1.png}
+\includegraphics[width=70mm]{KAL153plot2.png}
+
+
+\end{document}
+
