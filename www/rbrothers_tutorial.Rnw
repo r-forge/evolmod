@@ -1,0 +1,89 @@
+\documentclass[12pt]{article}
+
+\usepackage{amsmath}
+\usepackage{comment}
+\usepackage{amscd}
+\usepackage[utf8]{inputenc}
+\usepackage{fancyhdr}
+
+
+\usepackage{calc}
+\usepackage{natbib}
+\usepackage[american]{babel}
+
+\setlength{\paperheight}{11in}
+\setlength{\paperwidth}{8.5in}
+\addtolength{\voffset}{-1.0in}
+\addtolength{\hoffset}{-1.0in}
+\setlength{\topmargin}{1in}
+\setlength{\oddsidemargin}{1in}
+\setlength{\evensidemargin}{1in}
+\setlength{\textwidth}{\paperwidth - 2in}
+\setlength{\textheight}{\paperheight - 2in}
+\setlength{\footskip}{36pt}
+\setlength{\marginparsep}{0.5cm}
+\setlength{\marginparwidth}{1.5cm}
+\setlength{\headheight}{0pt}
+\setlength{\headsep}{0pt}
+
+
+
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+\lhead{}
+\chead{}
+\rhead{}
+\lfoot{}
+\cfoot{\thepage}
+\rfoot{}
+
+\SweaveOpts{keep.source=TRUE}
+
+\begin{document}
+
+<<echo=FALSE>>=
+options(width=40, continue=" ")
+@
+
+\begin{center}
+  {\LARGE An rbrothers tutorial}\\\ \\
+  {Jan Irvahn and Vladimir N. Minin \\ 
+    Department of Statistics, University of Washington Seattle, WA, 98195, USA
+  }
+\end{center}
+
+This is a tutorial demonstrating the usage of for using the java program, DualBrothers, in R.  To get started, install the rbrothers R package from R-forge. 
+\begin{verbatim}
+> install.packages("rbrothers", repos="http://R-Forge.R-project.org")
+\end{verbatim}
+The rJava package and a couple of other packages will need to be installed.
+
+Start R and load the rbrothers library.
+<<one>>=
+library(rbrothers)
+@
+
+Copy the KAL153.phy file from the rbrothers package to your current working directory.
+<<two>>=
+my.align = read.dna(file=system.file("extdata/KAL153/KAL153.phy", 
+	  	   package="rbrothers"))
+write.dna(my.align,"KAL153.phy")
+@
+
+Now you can run dualbrothers with a single command.
+<<three>>=
+#db<-dualbrothers(123,"KAL153",format="interleaved")
+@
+
+Plots can be created with the following commands.
+<<four>>=
+#plot(db,TRUE)
+#plottree.db(db,12,TRUE)
+@
+
+%\includegraphics[width=70mm]{KAL153plot1.png}
+%\includegraphics[width=70mm]{KAL153plot2.png}
+
+
+\end{document}
+
