@@ -73,13 +73,23 @@ write.dna(my.align,"KAL153.phy")
 Now you can run dualbrothers with a single command.
 <<three>>=
 #db<-dualbrothers(123,"KAL153",format="interleaved")
+db<-readdb("KAL153")
+@
+
+<<label=plotdb>>=
+#plot(db)
+plottree.db(db,2)
 @
 
 Plots can be created with the following commands.
-<<four>>=
-#plot(db,TRUE)
-#plottree.db(db,12,TRUE)
+\begin{figure}[!t]
+  \centering
+<<label=dbfigure1,fig=TRUE,echo=FALSE, width=6,height=4.0>>=
+<<plotdb>>
 @
+\caption{Explain the figure.}
+\label{KALplot}
+\end{figure}  
 
 %\includegraphics[width=70mm]{KAL153plot1.png}
 %\includegraphics[width=70mm]{KAL153plot2.png}
