@@ -71,7 +71,7 @@ write.dna(my.align,"KAL153.phy")
 
 Now you can run DualBrothers with a single command.
 <<three>>=
-db<-dualbrothers(123,"KAL153",format="interleaved")
+db<-dualbrothers(123,"KAL153",format="interleaved",par_lambda=5,top_lambda=0.693)
 @
 
 If you already have the output files of a DualBrothers run you can read the information in directly.

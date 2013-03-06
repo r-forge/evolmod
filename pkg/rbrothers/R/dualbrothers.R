@@ -1,5 +1,13 @@
-"dualbrothers"<- function(seed,alignment,format="interleaved",window.size=NULL,basename=alignment,length=2100000,burnin=100000,subsample=200,par_lambda=5,top_lambda=0.693,window_length=10,C=0.3,sigma_alpha=0.75,sigma_mu=0.75,subst_hyper_mean=-1,subst_hyper_variance=-1,diver_hyper_mean=-1,diver_hyper_variance=-1,top_breaks=1,par_breaks=1,step.size=10,boot=0,inputtrees=NULL){
+"dualbrothers"<- function(seed,alignment,format="interleaved",window.size=NULL,basename=alignment,length=2100000,burnin=100000,subsample=200,par_lambda=NULL,top_lambda=NULL,window_length=10,C=0.3,sigma_alpha=0.75,sigma_mu=0.75,subst_hyper_mean=-1,subst_hyper_variance=-1,diver_hyper_mean=-1,diver_hyper_variance=-1,top_breaks=1,par_breaks=1,step.size=10,boot=0,inputtrees=NULL){
   
+ if(is.null(par_lambda)){
+  print("'par_lambda' is missing (par_lambda is the hyperprior parameter representing the prior mean number of substitution process change-points)")
+  return()
+ }
+ if(is.null(top_lambda)){
+  print("'top_lambda' is missing (top_lambda is the hyperprior parameter representing the prior mean number of topology break-points)")
+  return()
+ }
    options(scipen = 100)
 
    write(paste("length:",length), file = paste(basename,".cmdfile",sep=""))
