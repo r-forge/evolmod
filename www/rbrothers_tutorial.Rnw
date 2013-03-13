@@ -69,55 +69,104 @@ my.align = read.dna(file=system.file("extdata/KAL153/KAL153.phy",
 write.dna(my.align,"KAL153.phy")
 @
 
-Now you can run DualBrothers with a single command.
+Now you can run DualBrothers with a single command. The par\_lambda argument sets the prior mean number of substitution process change-points. The top\_lambda argument sets the prior mean number of topology breakpoints. You can find more information about the details of the DualBrothers program at http://faculty.biomath.ucla.edu/msuchard/htdocs/DualBrothers/. 
+
 <<three>>=
-db<-dualbrothers(123,"KAL153",format="interleaved",par_lambda=5,top_lambda=0.693)
+#db<-dualbrothers(123,"KAL153",format="interleaved",par_lambda=5,top_lambda=0.693)
 @
+
+When your alignment has more than six tips rbrothers constructs a set of candidate trees. You need to provide a window.size argument in this situation as mentioned in the documentation: help(dualbrothers).  If the set of candidate trees is too small you have the option to bootstrap additional candidate trees via the boot argument.
 
 If you already have the output files of a DualBrothers run you can read the information in directly.
 <<four>>=
 db<-readdb("KAL153")
 @
 
-Plots can be created with the following commands.
-
-<<label=plotdb>>=
-plot(db,threshold=.5)
+It is a good idea to check the convergence of the MCMC chain; if the chain has not converged it should be rerun for a longer amount of time. The length argument of the dualbrothers command allows the user to specify how long the MCMC chain should run. Two other commands, subsample and burnin should also be considered when changing the length command. A trace plot of the log likelihoods of the MCMC chain and an autocorrelation plot can be created with a single command.
+<<label=plotmcmc>>=
+plotmcmc(db)
 @
-<<label=plotdb2>>=
-plottree.db(db,type="phylogram",threshold=.5)
-@
-
-
-
 \begin{figure}[!t]
   \centering
 <<label=dbfigure1,fig=TRUE,echo=FALSE, width=6,height=7.0>>=
-<<plotdb>>
+<<plotmcmc>>
 @
-\caption{The top plot shows site specific posterior probabilities for the two most probable phylogenetic tree topologies. The bottom plot shows the site specific posterior probability of a breakpoint.}
-\label{KALplot}
-\end{figure}  
+\caption{The top plot shows the trace plot of the log likelihood of the MCMC chain. The bottom plot shows the autocorrelation of the log likelihood of the MCMC chain. The chain was subsampled, one iteration out of every 200 was recorded; this can be altered by the user via the subsample argument in the dualbrothers command.}
+\label{KALmcmcplot}
+\end{figure} 
 
+Summary plots are easily created in rbrothers. The plot command produces two graphs on top of each other. The top plot is the posterior probability of each tree at each nucleotide position. The trees are color coded; the user can provide a list of their prefered colors via the `color' argument. The help file for plot.db explains the arguments of the plot command.
+
+<<five>>=
+#help(plot.db)
+@
+
+The bottom plot is the posterior probability of a breakpoint at each nucleotide position.
+
+<<label=plotdb>>=
+plot(db)
+@
 \begin{figure}[!t]
   \centering
 <<label=dbfigure2,fig=TRUE,echo=FALSE, width=6,height=7.0>>=
-<<plotdb2>>
+<<plotdb>>
 @
-\caption{These are the two most probable phylogenetic tree topologies.}
+\caption{The top plot shows site specific posterior probabilities for the most probable phylogenetic tree topologies. The bottom plot shows the site specific posterior probability of a breakpoint.}
+\label{KALplot}
+\end{figure}  
+
+A separate command, plottree.db, can be used to see the most probable trees. This function uses ape's plot.phylo command so the type argument (controling the style to display the phylogenetic tree) can be set to ``phylogram", ``cladogram", ``fan", ``unrooted", or ``radial". 
+
+<<label=treeplotdb2>>=
+plottree.db(db,type="phylogram")
+@
+\begin{figure}[!t]
+  \centering
+<<label=dbfigure3,fig=TRUE,echo=FALSE, width=6,height=7.0>>=
+<<treeplotdb2>>
+@
+\caption{These are the most probable phylogenetic tree topologies.}
 \label{KALplot2}
 \end{figure}  
 
 
+The threshold argument allows you to only plot trees that have a posterior probability greater than the threshold provided at some point along the alignment.
+<<label=plotdb3>>=
+plot(db,threshold=0.5)
+@
+\begin{figure}[!t]
+  \centering
+<<label=dbfigure4,fig=TRUE,echo=FALSE, width=6,height=7.0>>=
+<<plotdb3>>
+@
+\caption{The top plot shows site specific posterior probabilities for the top two phylogenetic trees. The bottom plot shows the site specific posterior probability of a breakpoint.}
+\label{KALplot3}
+\end{figure} 
+
+<<label=treeplotdb4>>=
+plottree.db(db,type="cladogram",threshold=0.5)
+@
+\begin{figure}[!t]
+  \centering
+<<label=dbfigure5,fig=TRUE,echo=FALSE, width=6,height=7.0>>=
+<<treeplotdb4>>
+@
+\caption{These are the two most probable phylogenetic tree topologies.}
+\label{KALplot4}
+\end{figure}  
+
+
 The average number of breakpoints, the posterior probability of at least one breakpoint and DualBrothers parameters associated with the run can be easily accessed.
-<<five>>=
+<<six>>=
 summary(db)
 @
 
 You can calculate a 95\% Bayesian credible interval for the first breakpoint.
-<<six>>=
+<<seven>>=
 breakpointCI(db,1000,3000)
 @
+
+
 
 
 %\includegraphics[width=70mm]{KAL153plot1.png}
