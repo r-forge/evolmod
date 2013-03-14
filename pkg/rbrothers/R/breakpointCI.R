@@ -19,7 +19,7 @@ breakpointCI<-function(x,leftedge,rightedge){
  ll <- readLines(paste(basename,".post",sep=""))
  breaks<-NULL
  for(i in 1:length(ll)) breaks<-c(breaks,makebplist(ll,i))
- cat(paste("The 95% credible interval for a single break point between nucleotide number",leftedge,"and nucleotide number",rightedge,"is:\n"))
+ cat(paste("The 95% credible interval for a single break point between nucleotide \nnumber",leftedge,"and nucleotide number",rightedge,"is:\n"))
  return(quantile(breaks[breaks>leftedge&breaks<rightedge],probs=c(.025,.975)))
 
 }

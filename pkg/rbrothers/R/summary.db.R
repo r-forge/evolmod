@@ -33,7 +33,7 @@ cat(paste("prior mean number of substitution process change points:",par_lambda)
 cat(paste("prior mean number of topology change points:",top_lambda),"\n\n")
 
 cat(paste("average number of breakpoints in the posterior:",round(mean(x$MCMC_number_of_break_points),1)),"\n")
-cat(paste("The posterior probability of at least one breakpoint was",round(sum(x$MCMC_number_of_break_points>0)/length(x$MCMC_number_of_break_points),3)," (>",round(rm,3)," required for a Bayes factor > 1000).","\n"))
+cat(paste("The posterior probability of at least one breakpoint was",round(sum(x$MCMC_number_of_break_points>0)/length(x$MCMC_number_of_break_points),3),"\n(>",round(rm,3)," required for a Bayes factor > 1000).","\n"))
 #if(sum(x$MCMC_number_of_break_points==0)==0){cat(paste("All of the posterior samples contained at least one break point."),"\n")}
 #if(bf!=Inf){cat(paste("The Bayes factor in favor of recombination is ",bf),"\n")}
 if(length(x[[6]])>1){cat(paste(length(x[[6]]),"trees considered"),"\n\n")}
