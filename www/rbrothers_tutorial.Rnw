@@ -5,7 +5,7 @@
 \usepackage{amscd}
 \usepackage[utf8]{inputenc}
 \usepackage{fancyhdr}
-\usepackage{url}
+\usepackage{hyperref}
 
 \usepackage{calc}
 %\usepackage{natbib}
@@ -53,7 +53,8 @@ options(width=60, continue=" ")
   }
 \end{center}
 
-This is a tutorial demonstrating the usage of the java program, DualBrothers \cite{minin2005dual}, in R.  To get started, install the rbrothers R package from R-forge. 
+This is a tutorial demonstrating the usage of the R package \verb8rbrothers8 that provides an easy R interface to java program, \verb8DualBrothers8 \cite{minin2005dual}, and adds a number of auxiliary functions to make \verb8DualBrothers8 more user
+friendly.  To get started, install the \verb8rbrothers8 R package from R-forge. 
 \begin{verbatim}
 > install.packages("rbrothers", repos="http://R-Forge.R-project.org")
 \end{verbatim}
@@ -64,27 +65,29 @@ Start R and load the rbrothers library.
 library(rbrothers)
 @
 
-We walk through the rbrothers workflow using four strains of HIV-1 isolate KAL153 from Kaliningrad, Russia \cite{liitsola1998hiv}. Copy the KAL153.phy file from the rbrothers package to your current working directory.
+We walk through the rbrothers workflow using an HIV circulating recombinant form KAL153 from Kaliningrad, Russia \cite{liitsola1998hiv}, aligned with genomic sequences of HIV-1 subtypes A, B, and F. This is one of the examples from the original
+\verb8DualBrothers8 paper \cite{minin2005dual}. First, copy the KAL153.phy file from the rbrothers package to your current working directory.
 <<two>>=
 my.align = read.dna(file=system.file("extdata/KAL153/KAL153.phy", 
 	  	   package="rbrothers"))
 write.dna(my.align,"KAL153.phy")
 @
 
-Now you can run DualBrothers with a single command. The `seed' argument is any integer used to seed the package's pseudo-random number generator. The `alignment' argument is the name of the input file (less the `.phy' extension). The `format' argument tells rbrothers the format of the input file, either `interleaved' or `fasta'. The `par\_lambda' argument sets the prior mean number of substitution process change-points. The `top\_lambda' argument sets the prior mean number of topology breakpoints. You can find more information about the details of the DualBrothers program at \url{http://faculty.biomath.ucla.edu/msuchard/htdocs/DualBrothers/}. 
+Now you can run DualBrothers with a single command. The `seed' argument is any integer used to seed the package's pseudo-random number generator. The `alignment' argument is the name of the input file (excluding the `.phy' extension). The `format' argument tells rbrothers the format of the input file, either `interleaved' or `fasta'. The `par\_lambda' argument sets the prior mean number of substitution process change-points. The `top\_lambda' argument sets the prior mean number of topology breakpoints. You can find more information about the details of the DualBrothers program at 
+\url{http://faculty.biomath.ucla.edu/msuchard/htdocs/DualBrothers/}.
 
 <<three>>=
 db<-dualbrothers(seed=123,alignment="KAL153",format="interleaved",par_lambda=5,top_lambda=0.693)
 @
 
-When your alignment has more than six tips rbrothers constructs a set of candidate trees. You need to provide a value for the `window.size' argument in this situation as mentioned in the help file: \verb|help(dualbrothers)|. If the set of candidate trees is too small you have the option to bootstrap additional candidate trees via the `boot' argument.
+When your alignment has more than six tips \verb8rbrothers8 constructs a set of candidate trees. You need to provide a value for the `window.size' argument in this situation as mentioned in the help file: \verb|help(dualbrothers)|. If the set of candidate trees is too small you have the option to bootstrap additional candidate trees via the `boot' argument.
 
 If you already have the output files of a DualBrothers run you can read the information in directly.
 <<four>>=
 db<-readdb("KAL153")
 @
 
-It is a good idea to check the convergence of the MCMC chain; if the chain has not converged it should be rerun for a longer amount of time. The `length' argument of the dualbrothers command allows the user to specify how long the MCMC chain should run if stationarity is not initially achieved. A trace plot of the log likelihoods of the MCMC chain and an autocorrelation plot can be created with a single command.
+It is a good idea to check the convergence of the MCMC chain; if the chain has not converged it should be rerun with a larger number of MCMC iterations. The `length' argument of the dualbrothers command allows the user to specify how long the MCMC chain should be. A trace plot of the log likelihoods of the MCMC chain and an autocorrelation plot can be created with a single command.
 <<label=plotmcmc>>=
 plotmcmc(db)
 @
@@ -99,7 +102,7 @@ plotmcmc(db)
 The trace plot indicates that the MCMC chain reached stationarity; the autocorrelation plot shows significant autocorrelation when subsampling the chain every 200 iterations. When increasing the length of a chain we suggest increasing the subsampling parameter, `subsample', so as to avoid saving large amounts of output. The `burnin' parameter controls the number of iterations discarded at the beginning of the MCMC run.
 
 
-Summary plots are easily created in rbrothers. The plot command produces two graphs on top of each other. The bottom plot is the posterior probability of a breakpoint at each nucleotide position. The top plot is the posterior probability of each tree at each nucleotide position. The trees are color coded; the user can provide a list of their preferred colors via the `color' argument. The help file for plot.db explains the arguments of the plot command: \verb|help(plot.db)|.
+Summary plots are easily created in \verb8rbrothers8. The plot command produces two graphs on top of each other. The bottom plot is the posterior probability of a breakpoint at each nucleotide position. The top plot is the posterior probability of each tree at each nucleotide position. The trees are color coded; the user can provide a list of their preferred colors via the `color' argument. The help file for plot.db explains the arguments of the plot command: \verb|help(plot.db)|.
 
 <<label=plotdb>>=
 plot(db)
@@ -113,7 +116,7 @@ plot(db)
 \label{KALplot}
 \end{figure}  
 
-A separate command, plottree.db, can be used to see the most probable trees. This function uses ape's plot.phylo command so the type argument (controlling the style to display the phylogenetic tree) can be set to ``phylogram", ``cladogram", ``fan", ``unrooted", or ``radial". 
+A separate command, \verb8plottree.db8, can be used to see the most probable trees. This function uses ape's \verb8plot.phylo8 command so the type argument (controlling the style to display the phylogenetic tree) can be set to ``phylogram", ``cladogram", ``fan", ``unrooted", or ``radial". 
 
 <<label=treeplotdb2>>=
 plottree.db(db,type="phylogram")
@@ -129,7 +132,7 @@ plottree.db(db,type="phylogram")
 
 The threshold argument allows you to only plot trees that have a posterior probability greater than the threshold provided at some point along the alignment. The `seetrees' argument allows the user to replace the posterior probability of a breakpoint plot with the trees associated with the posterior tree probability plot.
 <<label=plotdb3>>=
-plot(db,seetrees=TRUE,threshold=0.5,type="cladogram")
+plot(db,seetrees=TRUE, threshold=0.5, type="cladogram")
 @
 \begin{figure}[!t]
   \centering
@@ -140,12 +143,12 @@ plot(db,seetrees=TRUE,threshold=0.5,type="cladogram")
 \label{KALplot3}
 \end{figure} 
 
-The average number of breakpoints, the posterior probability of at least one breakpoint and DualBrothers parameters associated with the run can be easily accessed.
+The average number of breakpoints, the posterior probability of at least one breakpoint and DualBrothers parameters associated with the run can be easily accessed:
 <<six>>=
 summary(db)
 @
 
-You can calculate a 95\% Bayesian credible interval for a breakpoint if you can provide a nucleotide position interval that contains exactly one breakpoint, for example, (1000,3000).
+You can calculate a 95\% Bayesian credible interval for a breakpoint if you can provide a nucleotide position interval that contains exactly one breakpoint, for example, $(1000,3000)$.
 <<seven>>=
 breakpointCI(db,1000,3000)
 @
