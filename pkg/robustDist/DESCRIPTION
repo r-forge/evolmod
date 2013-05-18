@@ -1,0 +1,8 @@
+Package: robustDist
+Title: Calculation of labeled molecular distances robust to certain model misspecification 
+Version: 1.0
+Depends: R (>= 2.13.0), ape
+Author: Vladimir N. Minin, Marc A. Suchard, and John O'Brien
+Description: Analysis of continuous-time Markov chain counting processes
+Maintainer: Vladimir N. Minin <vminin@uw.edu>
+License: GPL-3
