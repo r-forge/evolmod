@@ -1,3 +1,4 @@
+## computes confidence interval for a recombination break-point in a window [leftedge, rightedge]
 breakpointCI<-function(x,leftedge,rightedge){
 
  makebplist<-function(ll,i){
