@@ -1,3 +1,4 @@
+## Computes the likelihood of a sequence aligment with two sequences
 site.pair.likelihood = function(seq.pair, transition.prob){
   return.val = 0
   
