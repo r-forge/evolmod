@@ -1,3 +1,4 @@
+## plotting mu
 plotmu<-function(x){
 basename<-x$basename
 epp<-read.table(paste(basename,".profile",sep=""))
