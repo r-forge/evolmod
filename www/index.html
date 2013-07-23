@@ -25,12 +25,20 @@
 Source code of DualBrothers is available <a href="http://code.google.com/p/dual-brothers/" target="_blank">here</a>.<br><br>
 
 	  
-	  <b>Installation</b>: In R terminal, type 
-<pre> install.packages("rbrothers", repos="http://R-Forge.R-project.org")</pre> 
-Make sure you have the latest version of R. Among other dependencies, rbrothers relies on the <a href="http://cran.r-project.org/web/packages/rJava/index.html" target="_blank">rJava</a> package, which
+	  <b>Installation</b>: 
+	  <ol>
+	  <li> Make sure you have the latest version of R. Among other dependencies, rbrothers relies on the <a href="http://cran.r-project.org/web/packages/rJava/index.html" target="_blank">rJava</a> package, which
 in turn requires access to Java Development Kit (JDK). See 
 <a href="http://www.rforge.net/rJava/" target="_blank">rJava web page</a> for more details. 
-
+	  <li> In R terminal, install dependencies by typing 
+	  <pre> install.packages(c("ape","rJava"))</pre> 
+	  <li>In R terminal, type 
+<pre> install.packages("rbrothers", repos="http://R-Forge.R-project.org")</pre> 
+	  <li> <font size="4" color="red">Attention Mac OS X users:</font> R-forge (temporarily?) stopped providing
+	  binaries for Mac OS X, so the previous step won't work for you. Instead, download this 
+	  <a href="rbrothers.tar">source file</a> to your Desktop and type in R terminal:
+	  <pre> >install.packages("~/Desktop/rbrothers.tar", repos = NULL, type="source")</pre>
+	  </ol>	
       
       &nbsp <br><br>
 
@@ -64,6 +72,10 @@ in turn requires access to Java Development Kit (JDK). See
 	
       <b>References</b>:<br>
       <ul> 
+     <li> Irvahn J, Chattopadhyay S, Sokurenko EV, <b>Minin VN</b>.
+<a href="http://www.la-press.com/rbrothers-r-package-for-bayesian-multiple-change-point-recombination-d-article-a3718" target="_blank">
+rbrothers: R package for Bayesian multiple change-point recombination detection</a>, <i>Evolutionary Bioinformatics</i>, 
+	  9, 235-238, 2013. 
 	<li> Minin VN, Dorman KS, Suchard MA.
 	 <a href ="http://bioinformatics.oxfordjournals.org/content/21/13/3034.long" target="_blank">Dual 
 	 multiple change-point model leads to more accurate recombination detection</a>, 
@@ -97,7 +109,7 @@ example is a </a href="http://markovjumps.blogspot.com/2012/01/packaging-and-exp
 
       <!-- Created: Sun May 11 10:28:57 PDT 2003 -->
       <!-- hhmts start -->
-      Last modified: March, 2013
+      Last modified: July, 2013
       <!-- hhmts end -->
   </body>
 </html>
