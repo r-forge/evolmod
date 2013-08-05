@@ -1,5 +1,5 @@
-"summary.db"<-function(x, ..){
-
+"summary.db"<-function(object, ...){
+x<-object
 ### parsing command file elements:
 
 for(i in 1:(dim(x$command_file)[1])){

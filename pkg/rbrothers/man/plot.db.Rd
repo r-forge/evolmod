@@ -4,7 +4,7 @@
 \description{
   This function creates two plots from a DualBrothers object. The first plots the posterior probability of each tree as a function of base pair position. The second plots the posterior probability of a break point as a function of base pair position.
 }
-\usage{plot.db(x,makepic="FALSE",ext="png",seetrees="FALSE",numplot=4,type="unrooted",linewidth=1,colors=NULL,threshold=0)}
+\usage{\method{plot}{db}(x,makepic="FALSE",ext="png",seetrees="FALSE",numplot=4,type="unrooted",linewidth=1,colors=NULL,threshold=0, ...)}
 \arguments{
   \item{x}{a DualBrothers object}
   \item{makepic}{a string, either "FALSE" or "TRUE", if "TRUE" the two plots are outputted into a .png file in the current working directory}
@@ -15,5 +15,6 @@
   \item{linewidth}{a number, determines the thickness of the lines on the posterior probability plot}
   \item{colors}{a vector of color names to determine the palette for plotting}
   \item{threshold}{posterior probability threshold, a number between 0 and 1, only those trees that attained a posterior probability greater than the number provided will be plotted}
+  \item{...}{optional arguments}
 }
 \value{Two posterior probability plots}

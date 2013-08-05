@@ -4,7 +4,7 @@
 \description{
   This function plots the most likely phylogenetic trees from a DualBrothers object.
 }
-\usage{plottree.db(x,numplot=12,makepic="FALSE",ext="png",type="unrooted",colors=NULL,threshold=0)}
+\usage{plottree.db(x,numplot=4,makepic="FALSE",ext="png",type="unrooted",colors=NULL,threshold=0)}
 \arguments{
   \item{x}{a DualBrothers object}
   \item{numplot}{a positive integer, determines the maximum number of trees to plot}

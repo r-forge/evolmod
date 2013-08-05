@@ -6,7 +6,7 @@
 }
 \usage{epprofile("basename")}
 \arguments{
-  \item{x}{A string in quotes that requires the basename.post file and the basename.profile file file to be in the current working directory. The basename of an rbrothers object, x, can be extracted via x$basename.}
+  \item{basename}{A string in quotes that requires the basename.post file and the basename.profile file file to be in the current working directory. The basename of an rbrothers object, x, can be extracted via x$basename.}
 }
 \details{
 The basename.profile file contains the posterior probability of the evolutionary parameters at each site. The format is as follows:

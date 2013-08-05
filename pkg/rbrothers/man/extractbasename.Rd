@@ -4,7 +4,7 @@
 \description{
   This function returns the basename in an rbrothers object
 }
-\usage{readdb(x)}
+\usage{extractbasename(x)}
 \arguments{
   \item{x}{an rbrothers object}
 }

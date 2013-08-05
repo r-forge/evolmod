@@ -1,4 +1,4 @@
-"plot.db" <- function(x,makepic="FALSE",ext="png",seetrees="FALSE",numplot=4,type="unrooted",linewidth=1,colors=NULL,threshold=0) {
+"plot.db" <- function(x,makepic="FALSE",ext="png",seetrees="FALSE",numplot=4,type="unrooted",linewidth=1,colors=NULL,threshold=0, ...) {
 if(ext!="png"&ext!="pdf"){
  print("ext must be pdf or png")
  return()
@@ -51,7 +51,7 @@ if(numplot>1){for(i in 2:miny){
 }
 if(numplot==1) lines(probs$V1,probs[,columns[1]],type="l",col=1,lwd=linewidth)
 if(seetrees=="FALSE"){plot(profile[,1],profile[,10],type="l",xlab="Nucleotide Position",ylab="Break-Point Probability")}
-if(seetrees=="TRUE"){for(i in 1:miny2){plot.phylo(trees[[columns[i]-1]],edge.width=3,edge.col=i,cex=1,type=type)}}
+if(seetrees=="TRUE"){for(i in 1:miny2){plot.phylo(trees[[columns[i]-1]],edge.width=3,edge.color=i,cex=1,type=type)}}
 dev.off()
 }
 
@@ -75,7 +75,7 @@ if(numplot>1){
 }
 if(numplot==1) lines(probs$V1,probs[,columns[1]],type="l",col=1,lwd=linewidth)
 if(seetrees=="FALSE"){plot(profile[,1],profile[,10],type="l",xlab="Nucleotide Position",ylab="Break-Point Probability")}
-if(seetrees=="TRUE"){for(i in 1:miny2){plot.phylo(trees[[columns[i]-1]],edge.width=3,edge.col=i,cex=1,type=type)}}
+if(seetrees=="TRUE"){for(i in 1:miny2){plot.phylo(trees[[columns[i]-1]],edge.width=3,edge.color=i,cex=1,type=type)}}
 
 palette("default")
 

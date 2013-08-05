@@ -249,10 +249,10 @@ if(!is.null(inputtrees)) cleaned.sw.trees<-unique(read.tree(inputtrees))
 tree.num = length(cleaned.sw.trees)
 
 
-my.tree = root(cleaned.sw.trees[[1]], outgroup="0", r=TRUE)
+my.tree = root(cleaned.sw.trees[[1]], outgroup="0", resolve.root=TRUE)
 write.tree(my.tree, file=paste(basename,"-input.tre",sep=""), append=FALSE)
 for (i in 2:tree.num){
-  my.tree = root(cleaned.sw.trees[[i]], outgroup="0", r=TRUE)
+  my.tree = root(cleaned.sw.trees[[i]], outgroup="0", resolve.root=TRUE)
   write.tree(my.tree, file=paste(basename,"-input.tre",sep=""), append=TRUE)
 }
 

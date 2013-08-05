@@ -6,7 +6,7 @@
 }
 \usage{topologyprofile("basename")}
 \arguments{
-  \item{x}{A string in quotes that requires the basename.post file to be in the current working directory. The basename of an rbrothers object, x, can be extracted via x$basename.}
+  \item{basename}{A string in quotes that requires the basename.post file to be in the current working directory. The basename of an rbrothers object, x, can be extracted via x$basename.}
 }
 \details{TopologyProfile creates two files that are more readable than the output file created by DualBrothers, basename.post. Basename.topoprob encodes the posterior probabilities at each site in the sequence (the rows) for each tree (the columns). Each column corresponds to its respective tree in the basename.tree file. (The first column in the basename.topoprob file corresponds to the first tree in the basename.tree file.) 
 }

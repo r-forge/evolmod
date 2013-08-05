@@ -27,14 +27,14 @@ if(ext=="png"){png(paste(basename,"plot2",".png",sep=""))}
 if(ext=="pdf"){pdf(paste(basename,"plot2",".pdf",sep=""))}
 par(mfrow=c(ceiling(sqrt(miny)),ceiling(miny/(ceiling(sqrt(miny))))))
 for(i in 1:miny){
- plot.phylo(trees[[columns[i]-1]],edge.width=3,edge.col=i,type=type)
+ plot.phylo(trees[[columns[i]-1]],edge.width=3,edge.color=i,type=type)
 }
 dev.off()
 }
 
 par(mfrow=c(ceiling(sqrt(miny)),ceiling(miny/(ceiling(sqrt(miny))))))
 for(i in 1:miny){
- plot.phylo(trees[[columns[i]-1]],edge.width=3,edge.col=i,type=type)
+ plot.phylo(trees[[columns[i]-1]],edge.width=3,edge.color=i,type=type)
 }
 
 

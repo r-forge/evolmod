@@ -4,8 +4,9 @@
 \description{
   This function outputs the length of the sequence in base pairs, the posterior average of the number of breakpoints found, and the number of trees in a DualBrothers object. The prior values of four hyperparameters are shown.
 }
-\usage{summary.db(x)}
+\usage{\method{summary}{db}(object, ...)}
 \arguments{
-  \item{x}{a DualBrothers object}
+  \item{object}{a DualBrothers object}
+  \item{...}{optional arguments}
 }
 \value{summary information of a DualBrothers object}
