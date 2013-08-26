@@ -1,0 +1,9 @@
+Package: synDSS
+Version: 0.0-1
+Date: 2013-08-23
+Title: Recombination detection using synonymous distances
+Author: Peter Chi, Vladimir Minin
+Maintainer: Peter Chi <pchi@calpoly.edu>
+Description: Based on the sliding windows methods of TOPALi, this package allows for detection of recombination using synonymous distnaces, which avoids false positives due to localized convergent evolution
+Depends: ape 
+License: GPL-3
