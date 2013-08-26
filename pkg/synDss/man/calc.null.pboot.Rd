@@ -14,7 +14,7 @@ calc.null.pboot(data, B, l, m)
   \item{data}{The sequence alignment, as a matrix of A,C,T,G characters}
   \item{B}{Number of bootstrap replicates to use}
   \item{l}{Step size for the sliding windows (should be the same as what was used for calculation of the Dss statistic)}
-  \item{m}{Half-window size (total window size will be $2 \times m$)}
+  \item{m}{Half-window size (total window size will be 2m)}
 }
 \details{
   This function currently uses an exhaustive search over all possible topologies.

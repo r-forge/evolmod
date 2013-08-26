@@ -1,6 +1,6 @@
 # in progress 8/14 -- also need to do calc.Dss.syn and bootstraps.
 calc.Dss <-
-function(data,l,m,exhaustive=F){
+function(data,l,m,exhaustive=FALSE){
    data<-as.DNAbin(data)
    length<-dim(data)[2]
    n.seq<-dim(data)[1]

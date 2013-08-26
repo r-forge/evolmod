@@ -1,85 +1,33 @@
 \name{optim.phylo.ls.all}
 \alias{optim.phylo.ls.all}
-%- Also NEED an '\alias' for EACH other topic documented here.
-\title{another blah}
+\title{Least squares phylogenetic estimation with an exhaustive search over all possible topologies}
 \description{
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
+   This function obtains the phylogeny which has the minimum value of the least squares
+criterion, among all possible phylogenies. An exhaustive search over all possible
+topologies is performed, to ensure that a global minimum is reached in the optimization routine.
 }
 \usage{
 optim.phylo.ls.all(D, set.neg.to.zero = TRUE, fixed = FALSE, tol = 1e-10, collapse = TRUE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{D}{
-%%     ~~Describe \code{D} here~~
-}
-  \item{set.neg.to.zero}{
-%%     ~~Describe \code{set.neg.to.zero} here~~
-}
-  \item{fixed}{
-%%     ~~Describe \code{fixed} here~~
-}
-  \item{tol}{
-%%     ~~Describe \code{tol} here~~
-}
-  \item{collapse}{
-%%     ~~Describe \code{collapse} here~~
-}
+  \item{D}{Distance matrix}
+  \item{set.neg.to.zero}{logical; if TRUE, set negative values equal to 0.}
+  \item{fixed}{logical; if TRUE, use a fixed topology for branch length estimation}
+  \item{tol}{Tolerance}
+  \item{collapse}{logical; if TRUE, then collapse branches with zero length}
 }
 \details{
-%%  ~~ If necessary, more details than the description above ~~
+  This function is a modification of \code{optim.phylo.ls} from \pkg{phytools}
 }
 \value{
-%%  ~Describe the value returned
-%%  If it is a LIST, use
-%%  \item{comp1 }{Description of 'comp1'}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+   An object of class \code{"phylo"} that is the least-squares tree with branch lengths; 
+also returns the sum of squares in \code{attr(tree,"Q-score")}.
 }
 \references{
-%% ~put references to the literature/web site here ~
+	Revell, L. J. (2012) phytools: An R package for phylogenetic comparative biology (and other things). Methods Ecol. Evol. \emph{3}, 217-223. doi:10.1111/j.2041-210X.2011.00169.x
 }
 \author{
-%%  ~~who you are~~
-}
-\note{
-%%  ~~further notes~~
+Peter Chi
 }
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
-
-\seealso{
-%% ~~objects to See Also as \code{\link{help}}, ~~~
-}
-\examples{
-##---- Should be DIRECTLY executable !! ----
-##-- ==>  Define data, use random,
-##--	or do  help(data=index)  for the standard data sets.
-
-## The function is currently defined as
-function (D, set.neg.to.zero = TRUE, fixed = FALSE, tol = 1e-10, 
-    collapse = TRUE) 
-{
-    if (class(D) == "dist") 
-        D <- as.matrix(D)
-    n <- nrow(D)
-    all.trees <- allTrees(n, tip.label = row.names(as.matrix(D)))
-    allQ <- vector()
-    bestQ <- Inf
-    for (i in 1:length(all.trees)) {
-        all.trees[[i]]$edge.length <- rep(dim(all.trees[[i]]$edge)[1], 
-            1)
-        all.trees[[i]] <- nnls.tree(D, all.trees[[i]], trace = 0)
-        allQ[i] <- attr(all.trees[[i]], "RSS")
-    }
-    best <- which(allQ == min(allQ))
-    if (length(best) > 1) {
-        best <- best[1]
-    }
-    return(all.trees[[best]])
-  }
-}
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory.
-\keyword{ ~kwd1 }
-\keyword{ ~kwd2 }% __ONLY ONE__ keyword per line

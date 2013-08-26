@@ -1,5 +1,5 @@
 calc.Dss.syn <-
-function(data,l,m,syn.matrix,exhaustive=F){
+function(data,l,m,syn.matrix,exhaustive=FALSE){
    length<-dim(data)[2]
    n.seq<-dim(data)[1]
    if(exhaustive & n.seq>6){

@@ -14,9 +14,9 @@ calc.null.pboot.syn(data, B, l, m, syn.matrix, exhaustive=F)
   \item{data}{The sequence alignment, as a matrix of A,C,T,G characters}
   \item{B}{Number of bootstrap replicates to use}
   \item{l}{Step size for the sliding windows}
-  \item{m}{Half-window size (total window size will be $2 \times m$)}
+  \item{m}{Half-window size (total window size will be 2m)}
   \item{syn.matrix}{An indicator matrix which specifies the transitions of interest. For synonymous distances,
-each entry will be a 1 for synonymous changes, and 0 for non-synonymous changes. See \code{\link{regist.synonym}}. 
+each entry will be a 1 for synonymous changes, and 0 for non-synonymous changes. See \code{\link{regist.synonym}}.} 
   \item{exhaustive}{Logical: If TRUE, then an exhaustive search over all possible topologies is performed. Not allowed
 for datasets of greater than 6 sequences due to memory/time constraints.}
 }

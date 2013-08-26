@@ -6,19 +6,20 @@
    This function calculates the Dss statistic using sliding windows.
 }
 \usage{
-calc.Dss(data, l, m)
+calc.Dss(data, l, m, exhaustive=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 
 \arguments{
   \item{data}{The sequence alignment, as a matrix of A,C,T,G characters}
   \item{l}{Step size for the sliding windows}
-  \item{m}{Half-window size (total window size will be $2 \times m$)}
+  \item{m}{Half-window size (total window size will be 2m)}
+  \item{exhaustive}{logical; if TRUE, an exhaustive search over all possible topologies is performed at each step}
 }
 \details{
-  In contrast to calc.Dss.all, this function uses \code{\link{bionj}} to quickly obtain the neighbor-joining tree before finding
-optimal branch lengths using least squares; the branch length optimization is restricted to the topology obtained by
-neighbor-joining. This allows for a much faster implementation than calc.Dss.all
+  Unless \code{exhaustive=TRUE}, this function uses \code{\link{bionj}} to quickly obtain the neighbor-joining tree before finding
+optimal branch lengths using least squares for each half-window; the branch length estimation is restricted to the topology obtained by the
+neighbor-joining algorithm.
 }
 \value{
   A vector of numeric values, representing the Dss statistic at each window location.
@@ -34,7 +35,7 @@ phylogenetic trees. \emph{Molecular Biology and Evolution}, \bold{4}:406-425, 19
 \author{Peter Chi \email{pchi@calpoly.edu}
 }
 \seealso{
-  \code{\link{calc.Dss.all}}, \code{\link{calc.Dss.syn}}, \code{\link{calc.Dss.syn.all}}
+  \code{\link{calc.Dss.syn}}
 }
 \keyword{recombination}
 \keyword{Dss}
