@@ -8,7 +8,7 @@ function(id,data,ctl.name,tree){
 
    title3<-paste(paste("mlc",id,sep=""))
 
-   template<-readLines("template.ctl")
+   template<-readLines(system.file("paml/template.ctl", package="synDss"))
    template[1]<-paste("      seqfile = ",title1,sep="")
    template[2]<-paste("     treefile = ",title2,sep="")
 
