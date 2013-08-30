@@ -1,5 +1,6 @@
 sim.codon <-
 function(n.taxa,n.codons,reps,tree,freqs=c(0.6,0.3,0.1),omega=c(0.1,0.8,3.2),kap=2,call="evolverNSsites 6"){
+   tree<-write.tree(tree)
    # need to add error checking, or else it will create directories and crash before it can remove them
    current.dir<-getwd()
    tmp<-NA

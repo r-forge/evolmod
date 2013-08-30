@@ -25,12 +25,21 @@ function(data,l,m,exhaustive=FALSE){
       dist2.stan<-dist2*(d.bar/w2)
 
       if(w1!=0 & w2!=0){		# skip it if either window has identical sequences...
-         T1i<-ifelse(exhaustive,optim.phylo.ls.all(dist1.stan),nnls.tree(dist1.stan,bionj(dist1.stan),trace=0))
+         if(exhaustive){
+            T1i<-optim.phylo.ls.all(dist1.stan)
+         } else {
+            T1i<-nnls.tree(dist1.stan,bionj(dist1.stan),trace=0)
+         }
 
          SSa.F<-attr(T1i,"RSS")
          SSb.F<-attr(nnls.tree(as.matrix(dist2.stan),T1i,trace=0),"RSS")
 
-         T2i<-ifelse(exhaustive,optim.phylo.ls.all(dist2.stan),nnls.tree(dist2.stan,bionj(dist2.stan),trace=0))
+         if(exhaustive){
+            T2i<-optim.phylo.ls.all(dist2.stan)
+         } else {
+            T2i<-nnls.tree(dist2.stan,bionj(dist2.stan),trace=0)
+         }
+
          SSa.B<-attr(T2i,"RSS")
          SSb.B<-attr(nnls.tree(as.matrix(dist1.stan),T2i,trace=0),"RSS")
 

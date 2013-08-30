@@ -1,23 +1,21 @@
 make.mj.align <-
 function(alignment){
    n.taxa<-nrow(alignment)
-   n.codons<-ncol(alignment)
-   # in case its in codons; nucleotide matrix is fine too
-   matrixed.align<-t(matrix(as.vector(unlist(apply(alignment,1,strsplit,""))),ncol=n.taxa))
+   n.nuc<-ncol(alignment)
 
-   not.in.alphabet <- ((matrixed.align != "A")*(matrixed.align != "G")*(matrixed.align != "C")*(matrixed.align != "T")*
-                      (matrixed.align != "a")*(matrixed.align != "g")*(matrixed.align != "c")*(matrixed.align != "t"))
+   not.in.alphabet <- ((alignment != "A")*(alignment != "G")*(alignment != "C")*(alignment != "T")*
+                      (alignment != "a")*(alignment != "g")*(alignment != "c")*(alignment != "t"))
    not.in.alphabet <- not.in.alphabet == 1
 
-   align.table = matrix(0, nrow = n.taxa, ncol = n.codons*3)
+   align.table = matrix(0, nrow = n.taxa, ncol = n.nuc)
    rownames(align.table) = rownames(alignment)
     ##print(not.in.alphabet)
 
    align.table[not.in.alphabet] = 0
-   align.table[matrixed.align == "A" | matrixed.align == "a"] = 1
-   align.table[matrixed.align == "G" | matrixed.align == "g"] = 2
-   align.table[matrixed.align == "C" | matrixed.align == "c"] = 3
-   align.table[matrixed.align == "T" | matrixed.align == "t"] = 4
+   align.table[alignment == "A" | alignment == "a"] = 1
+   align.table[alignment == "G" | alignment == "g"] = 2
+   align.table[alignment == "C" | alignment == "c"] = 3
+   align.table[alignment == "T" | alignment == "t"] = 4
    return(align.table)
 }
 

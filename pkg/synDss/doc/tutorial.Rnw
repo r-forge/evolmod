@@ -77,17 +77,33 @@ library(synDss)
 @
 
 \item Now, let us try to calculate the original and synonymous Dss statistics from a DNA sequence
-alignment. 
+alignment. First, we will read in the fasta file for a sequence alignment of 18 salmonella sequences included
+in the package:
+
+<<label=read data>>=
+salmonella<-fasta.to.alignment(system.file("seqdata/Salmonella_fimH_aligned-18alleles.txt",package="synDss"))
+
+@
+
+\item Now, let us calculate the Dss statistic for this dataset, with a window size of 105 nucleotides,
+and step size of 9 nucleotides:
+
+<<label=dss>>=
+dss.stat<-calc.Dss(salmonella, l=105, m=9)
+
+@
+
+\item We can also calculate the synonymous Dss statistic (for a dataset of this size, this will take about 5 minutes):
+
+<<label=dss>>=
+syn.stat<-calc.Dss.syn(salmonella, l=105, m=9,syn.matrix=regist.synonym())
+
+@
+
+\item To look at our statistic landscapes, we can plot them:
+<<label=plot>>=
 
 
-<<label=install>>=
-# pickup here
-data.salm<-as.matrix.alignment(ape::as.alignment(read.fasta(system.file("seqdata/Salmonella_fimH_aligned-18alleles.txt",package="synDss"),forceDNAtolower=F)))
-align.taxa<-nuc.to.codon(data.salm)
-
-data<-t(matrix(as.vector(unlist(apply(align.taxa,1,strsplit,""))),ncol=nrow(align.taxa))) # for calc.dss
-distance<-dist.dna(as.DNAbin(as.alignment(data)),model="F84")*3
-ols.tree<-nnls.tree(distance,bionj(distance),trace=0)
 @
 
 

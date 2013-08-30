@@ -10,7 +10,7 @@ function(data,B,l,m,exhaustive=F){
    params<-paml.codeml(data,ols.tree)
 
    for(i in 1:B){
-      align.taxa<-sim.codon(n.taxa,length.codons,1,write.tree(ols.tree),"template.dat","boot.dat",freqs=params$freqs,omega=params$omega,kap=params$kap)[[1]]  
+      align.taxa<-sim.codon(n.taxa,length.codons,1,ols.tree,freqs=params$freqs,omega=params$omega,kap=params$kap)[[1]]  
       data<-t(matrix(as.vector(unlist(apply(align.taxa,1,strsplit,""))),ncol=nrow(align.taxa))) # for calc.dss
       data.tmp<-ape::as.alignment(data)
 

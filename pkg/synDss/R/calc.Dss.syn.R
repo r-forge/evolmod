@@ -1,6 +1,6 @@
 calc.Dss.syn <-
 function(data,l,m,syn.matrix,exhaustive=FALSE){
-   data<-as.matrix.alignment(make.mj.align(data))   # 8/29 not yet tested
+   data<-make.mj.align(as.matrix.alignment(data))   # 8/29 not yet tested
    length<-dim(data)[2]
    n.seq<-dim(data)[1]
    if(exhaustive & n.seq>6){
@@ -35,11 +35,21 @@ function(data,l,m,syn.matrix,exhaustive=FALSE){
 
       if(w1!=0 & w2!=0){
 
-         T1i<-ifelse(exhaustive,optim.phylo.ls.all(dist1.stan),nnls.tree(dist1.stan,bionj(dist1.stan),trace=0))
+         if(exhaustive){
+            T1i<-optim.phylo.ls.all(dist1.stan)
+         } else {
+            T1i<-nnls.tree(dist1.stan,bionj(dist1.stan),trace=0)
+         }
+
          SSa.F<-attr(T1i,"RSS")
          SSb.F<-attr(nnls.tree(as.matrix(dist2.stan),T1i,trace=0),"RSS")
 
-         T2i<-ifelse(exhaustive,optim.phylo.ls.all(dist2.stan),nnls.tree(dist2.stan,bionj(dist2.stan),trace=0))
+         if(exhaustive){
+            T2i<-optim.phylo.ls.all(dist2.stan)
+         } else {
+            T2i<-nnls.tree(dist2.stan,bionj(dist2.stan),trace=0)
+         }
+
          SSa.B<-attr(T2i,"RSS")
          SSb.B<-attr(nnls.tree(as.matrix(dist1.stan),T2i,trace=0),"RSS")
 

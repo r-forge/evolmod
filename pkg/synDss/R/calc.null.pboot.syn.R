@@ -9,7 +9,8 @@ function(data,B,l,m,syn.matrix,exhaustive=F){
    Dss.null<-rep(NA,B)
    for(i in 1:B){
       align.taxa<-sim.codon(n.taxa,length.codons,1,write.tree(ols.tree),freqs=params$freqs,omega=params$omega,kap=params$kap)[[1]]  
-      data.tmp<-make.mj.align(align.taxa)
+      data<-t(matrix(as.vector(unlist(apply(align.taxa,1,strsplit,""))),ncol=nrow(align.taxa)))
+      data.tmp<-ape::as.alignment(data)
 
       Dss.null[i]<-max(calc.Dss.syn(data.tmp,l,m,syn.matrix,exhaustive))
    }

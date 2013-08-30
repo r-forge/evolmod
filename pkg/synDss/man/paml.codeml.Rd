@@ -1,18 +1,17 @@
-\name{codeml.M3}
-\alias{codeml.M3}
+\name{paml.codeml}
+\alias{paml.codeml}
 \title{Estimate parameters from the M3 codon substitution model}
 \description{
   This function takes a sequence alignment dataset and an assumed tree,
 and infers the M3 model parameters kappa, p and omega (p and omega are vectors). Internal
 function, used within parametric bootstrap.}
 \usage{
-codeml.M3(id, data, ctl.name, tree)
+paml.codeml(data, tree, call="codeml")
 }
 \arguments{
-  \item{id}{Given from parametric bootstrap function}
-  \item{data}{Sequence alignment dataset}
-  \item{ctl.name}{Name of the control file for paml}
-  \item{tree}{Phylogenetic tree, the assumed evolutionary history.}
+  \item{data}{Sequence alignment dataset, an object of class \code{"alignment"}}
+  \item{tree}{Phylogenetic tree as an object of class \code{"phylo"}}
+  \item{call}{Command to the codeml executable}
 }
 
 \value{
