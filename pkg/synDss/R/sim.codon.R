@@ -1,13 +1,16 @@
 sim.codon <-
-function(n.taxa,n.codons,reps,tree,template.dat,datfile,freqs=c(0.6,0.3,0.1),omega=c(0.1,0.8,3.2),kap=2){
+function(n.taxa,n.codons,reps,tree,freqs=c(0.6,0.3,0.1),omega=c(0.1,0.8,3.2),kap=2,call="evolverNSsites 6"){
+   # need to add error checking, or else it will create directories and crash before it can remove them
+   current.dir<-getwd()
    tmp<-NA
-   while(length(tmp)<(n.taxa+6)){	# added this in for when it screws up
-      make.dat(n.taxa,n.codons,reps,tree,template.dat,datfile,freqs,omega,kap)
-      command<-paste("/homes/peterchi/bin/evolverNSsites 6",datfile)
-      system(command,ignore.stdout=T)
-      tmp<-readLines("mc.paml")		# Not really happy about this
+   while(length(tmp)<(n.taxa+6)){	# fault tolerance
+      temp.dir<-make.dat(n.taxa,n.codons,reps,tree,freqs,omega,kap) # write paml.dat and return the dir it is in
+      setwd(temp.dir)	
+      command<-paste(call,"paml.dat")
+      system(command,ignore.stdout=T,show.output.on.console=F)
+      tmp<-readLines("mc.paml")
       if(length(tmp)<(n.taxa+6)){
-         print("would-be error")
+         print("paml error, re-trying evolver")
       }
    }
    starts<-intersect(grep(n.taxa,tmp),grep(n.codons*3,tmp))+1	# the rows that have both n.taxa and n.codons
@@ -25,5 +28,14 @@ function(n.taxa,n.codons,reps,tree,template.dat,datfile,freqs=c(0.6,0.3,0.1),ome
    colnames(data.temp)<-seq(1:dim(data.temp)[2])
    all.aligns[[i]]<-data.temp
    }
+
+   setwd(current.dir)
+
+   # cleanup temporary files
+   unlink(temp.dir, recursive=TRUE)
+
    return(all.aligns)
 }
+
+
+

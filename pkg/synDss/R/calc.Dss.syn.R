@@ -1,5 +1,6 @@
 calc.Dss.syn <-
 function(data,l,m,syn.matrix,exhaustive=FALSE){
+   data<-as.matrix.alignment(make.mj.align(data))   # 8/29 not yet tested
    length<-dim(data)[2]
    n.seq<-dim(data)[1]
    if(exhaustive & n.seq>6){
