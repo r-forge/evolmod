@@ -7,7 +7,7 @@ using the overall least squares tree as the evolutionary history of the sequence
 hypothesis.
 }
 \usage{
-calc.null.pboot(data, B, l, m)
+calc.null.pboot(data, B, l, m, exhaustive=F, codeml="codeml", evolver="evolverNSsites 6")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -15,10 +15,11 @@ calc.null.pboot(data, B, l, m)
   \item{B}{Number of bootstrap replicates to use}
   \item{l}{Step size for the sliding windows (should be the same as what was used for calculation of the Dss statistic)}
   \item{m}{Half-window size (total window size will be 2m)}
+  \item{exhaustive}{Performs exhaustive search if TRUE}
+  \item{codeml}{Call to codeml executable; can be changed if needed}
+  \item{evolver}{Call to evolver executable; can be changed if needed}
 }
-\details{
-  This function currently uses an exhaustive search over all possible topologies.
-}
+
 \value{
   A vector of numeric values, representing the maximum Dss statistic at each bootstrap replicate.
 }

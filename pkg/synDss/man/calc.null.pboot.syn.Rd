@@ -7,7 +7,7 @@ least squares tree as the evolutionary history of the sequences under the null h
 distribution is calculated using the Synonyous Dss statistic across the alignment.
 }
 \usage{
-calc.null.pboot.syn(data, B, l, m, syn.matrix, exhaustive=F)
+calc.null.pboot.syn(data, B, l, m, syn.matrix, exhaustive=F, codeml="codeml", evolver="evolverNSsites 6")
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -19,9 +19,8 @@ calc.null.pboot.syn(data, B, l, m, syn.matrix, exhaustive=F)
 each entry will be a 1 for synonymous changes, and 0 for non-synonymous changes. See \code{\link{regist.synonym}}.} 
   \item{exhaustive}{Logical: If TRUE, then an exhaustive search over all possible topologies is performed. Not allowed
 for datasets of greater than 6 sequences due to memory/time constraints.}
-}
-\details{
-  This function currently uses an exhaustive search over all possible topologies.
+  \item{codeml}{Call to codeml executable; can be changed if needed}
+  \item{evolver}{Call to evolver executable; can be changed if needed}
 }
 \value{
   A vector of numeric values, representing the maximum Dss statistic at each bootstrap replicate.
