@@ -136,11 +136,21 @@ a p-value. We will do this through parametric bootstrap, as follows (later will 
 now just seeing if it works):
 
 <<label=bootstrap>>=
-null.dss<-calc.null.pboot(salmonella,B=1,270,9)
-null.syn<-calc.null.pboot.syn(salmonella,B=1,270,9,syn.matrix=regist.synonym())
+#null.dss<-calc.null.pboot(salmonella,B=1,270,9)
+#null.syn<-calc.null.pboot.syn(salmonella,B=1,270,9,syn.matrix=regist.synonym())
 @
 
+Note: if the codeml and evolver executables are not in a directory specified by your PATH variable
+(i.e. you are unable to run them from any directory), you will need to specify what directory they
+are in when running the bootstrap functions. For example, 
+\begin{verbatim}
+null.dss<-calc.null.pboot(salmonella,B=1,270,9,codeml="/directory/codeml",evolver="/directory/evolverNSsites 6")
+\end{verbatim}
 
+Also,
+\begin{itemize}
+\item Any spaces in the directory name may cause errors
+\item On Windows, the directory specification will need to start with "C:/..."
 \end{itemize}
-
+\end{itemize}
 \end{document}
