@@ -1,7 +1,7 @@
 calc.null.pboot <-
 function(data,B,l,m,exhaustive=F){
    distance<-dist.dna(as.DNAbin(data),model="F84")*3
-   ols.tree<-optim.phylo.ls.all(distance)
+   ols.tree<-nnls.tree(distance,bionj(distance),trace=0)
    data<-as.matrix.alignment(data)
    length.codons<-dim(data)[2]/3
    n.taxa<-dim(data)[1]

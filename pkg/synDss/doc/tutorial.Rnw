@@ -89,23 +89,56 @@ salmonella<-fasta.to.alignment(system.file("seqdata/Salmonella_fimH_aligned-18al
 and step size of 9 nucleotides:
 
 <<label=dss>>=
-dss.stat<-calc.Dss(salmonella, l=105, m=9)
+dss.stat<-calc.Dss(salmonella, l=270, m=9)
 
 @
 
 \item We can also calculate the synonymous Dss statistic (for a dataset of this size, this will take about 5 minutes):
 
 <<label=dss>>=
-syn.stat<-calc.Dss.syn(salmonella, l=105, m=9,syn.matrix=regist.synonym())
+syn.stat<-calc.Dss.syn(salmonella, l=270, m=9,syn.matrix=regist.synonym())
 
 @
 
 \item To look at our statistic landscapes, we can plot them:
 <<label=plot>>=
 
+m<-9
+l<-270
+length<-dim(as.matrix.alignment(salmonella))[2]
+n.windows<-((length-(2*l))/m+1)
+index<-c(1:n.windows)
+
+title<-"sal18.pdf"
+pdf(title,height=4,width=8)
+max<-max(c(dss.stat,syn.stat),na.rm=T)
+plot(dss.stat~index,type="l",xlab="window number",ylab="",ylim=c(0,max),lty=2)
+lines(syn.stat~index,type="l")
+legend("topright",c("Original Dss","Synonymous Dss"),lty=c(2,1))
+dev.off()
+
 
 @
 
+
+\par Here is the landscape plot, with a window size of 540 and step size of 9:
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[width=\textwidth]{sal18.pdf}
+\caption{Landscape plot for salmonella sequence alignment}
+\label{fig:tree}
+\end{center}
+\end{figure}
+
+\item Now, we need to obtain a statistical significance threshold in order to obtain
+a p-value. We will do this through parametric bootstrap, as follows (later will up B; right
+now just seeing if it works):
+
+<<label=bootstrap>>=
+null.dss<-calc.null.pboot(salmonella,B=1,270,9)
+null.syn<-calc.null.pboot.syn(salmonella,B=1,270,9,syn.matrix=regist.synonym())
+@
 
 
 \end{itemize}
