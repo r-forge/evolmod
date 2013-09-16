@@ -2,12 +2,12 @@ calc.null.pboot <-
 function(data,B,l,m,exhaustive=F,codeml="codeml",evolver="evolverNSsites 6"){
    distance<-dist.dna(as.DNAbin(data),model="F84")*3
    ols.tree<-nnls.tree(distance,bionj(distance),trace=0)
+   params<-paml.codeml(data,ols.tree,codeml)
    data<-as.matrix.alignment(data)
    length.codons<-dim(data)[2]/3
    n.taxa<-dim(data)[1]
    Dss.null<-rep(NA,B)
 
-   params<-paml.codeml(data,ols.tree,codeml)
 
    for(i in 1:B){
       align.taxa<-sim.codon(n.taxa,length.codons,1,ols.tree,freqs=params$freqs,omega=params$omega,kap=params$kap,evolver)[[1]]  

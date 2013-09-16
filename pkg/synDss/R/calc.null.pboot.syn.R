@@ -2,7 +2,7 @@ calc.null.pboot.syn <-
 function(data,B,l,m,syn.matrix,exhaustive=F,codeml="codeml",evolver="evolverNSsites 6"){
    distance<-dist.dna(as.DNAbin(data),model="F84")*3
    ols.tree<-nnls.tree(distance,bionj(distance),trace=0)
-   params<-paml.codeml(as.matrix.alignment(data),ols.tree,codeml)   
+   params<-paml.codeml(data,ols.tree,codeml)   
    data<-make.mj.align(as.matrix.alignment(data))
    length.codons<-dim(data)[2]/3
    n.taxa<-dim(data)[1]

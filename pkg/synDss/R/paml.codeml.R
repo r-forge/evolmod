@@ -19,7 +19,7 @@ function(data, tree, call="codeml"){
    temp.file.stdout <- paste(temp.dir, "/stdout", sep = "")
 
    # write sequence and tree files
-   write.dna(data,temp.file.nuc,format="fasta")
+   write.dna(as.matrix.alignment(data),temp.file.nuc,format="fasta")
    write.tree(tree,temp.file.tree)
 
    # read in template control file
