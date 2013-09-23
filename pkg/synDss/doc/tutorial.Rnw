@@ -36,43 +36,43 @@ Peter Chi and Vladimir Minin \\
 Objective: This is a tutorial to illustrate the use of the synDss package in {\tt{R}}. 
 
 \begin{itemize}
-\item The first
-step is to download and install PAML, from:  
-{\tt{http://abacus.gene.ucl.ac.uk/software/paml.html}}. 
-\begin{itemize}
-\item The two programs we need
-from this software package are {\tt{codeml}} and {\tt{evolver}}. 
-\begin{itemize}
-\item For {\tt{codeml}}, the included MS Windows executable {\tt{codeml.exe}} will work as is on Windows,
-and on Linux/Mac, one can compile {\tt{codeml.c}} following the PAML installation instructions.
-\item For {\tt{evolver}}, we need
-to compile it in a slightly different way in order to allow for variable dN/dS rates at
-each site (i.e. the M3 model). Essentially, we need to go to the PAML subdirectory that contains {\tt{evolver.c}},
-and type:
-\begin{verbatim}
-gcc -O4 -DCodonNSsites -o evolverNSsites evolver.c tools.c -lm
-\end{verbatim}
-This is assuming that a gcc compiler is installed on your machine, e.g. through RTools if you are using Windows.
-See 
-\begin{verbatim}
-petrov.stanford.edu/software/src/paml3.15/Technical/Simulation/Codon/CodonSimulation.txt
-\end{verbatim} 
-for more details.
+%\item The first
+%step is to download and install PAML, from:  
+%{\tt{http://abacus.gene.ucl.ac.uk/software/paml.html}}. 
+%\begin{itemize}
+%\item The two programs we need
+%from this software package are {\tt{codeml}} and {\tt{evolver}}. 
+%\begin{itemize}
+%\item For {\tt{codeml}}, the included MS Windows executable {\tt{codeml.exe}} will work as is on Windows,
+%and on Linux/Mac, one can compile {\tt{codeml.c}} following the PAML installation instructions.
+%\item For {\tt{evolver}}, we need
+%to compile it in a slightly different way in order to allow for variable dN/dS rates at
+%each site (i.e. the M3 model). Essentially, we need to go to the PAML subdirectory that contains {\tt{evolver.c}},
+%and type:
+%\begin{verbatim}
+%gcc -O4 -DCodonNSsites -o evolverNSsites evolver.c tools.c -lm
+%\end{verbatim}
+%This is assuming that a gcc compiler is installed on your machine, e.g. through RTools if you are using Windows.
+%See 
+%\begin{verbatim}
+%petrov.stanford.edu/software/src/paml3.15/Technical/Simulation/Codon/CodonSimulation.txt
+%\end{verbatim} 
+%for more details.
 
-\end{itemize}
-\item The {\tt{codeml}} and {\tt{evolverNSsites}} executables should then be placed in a folder of 
-local programs pointed to by your PATH variable,
-so that they can be run from any directory. See the PAML installation instructions for more details. Alternatively,
-if this cannot be successfully performed, one will need to specify the directory where the PAML programs
-are located when running certain functions (see below).
+%\end{itemize}
+%\item The {\tt{codeml}} and {\tt{evolverNSsites}} executables should then be placed in a folder of 
+%local programs pointed to by your PATH variable,
+%so that they can be run from any directory. See the PAML installation instructions for more details. Alternatively,
+%if this cannot be successfully performed, one will need to specify the directory where the PAML programs
+%are located when running certain functions (see below).
 
-\end{itemize}
+%\end{itemize}
 
 
-\item Next, we need to open {\tt{R}}, and install and load the {\tt{synDss}} package:
+\item First, read the installation instructions at 
+{\tt{http://evolmod.r-forge.r-project.org/#synDss}}. Once these steps are completed, run {\tt{R}} and
+then load the package:
 <<label=install>>=
-
-#install.packages("synDss", repos="http:/R-Forge.R-project.org")
 library(synDss)
 @
 
@@ -109,13 +109,10 @@ length<-dim(as.matrix.alignment(salmonella))[2]
 n.windows<-((length-(2*l))/m+1)
 index<-c(1:n.windows)
 
-title<-"sal18.pdf"
-pdf(title,height=4,width=8)
 max<-max(c(dss.stat,syn.stat),na.rm=T)
 plot(dss.stat~index,type="l",xlab="window number",ylab="",ylim=c(0,max),lty=2)
 lines(syn.stat~index,type="l")
 legend("topright",c("Original Dss","Synonymous Dss"),lty=c(2,1))
-dev.off()
 
 
 @
@@ -125,7 +122,9 @@ dev.off()
 
 \begin{figure}[ht]
 \begin{center}
-\includegraphics[width=\textwidth]{sal18.pdf}
+<<label=fig,fig=TRUE,echo=FALSE>>=
+<<plot>>
+@
 \caption{Landscape plot for salmonella sequence alignment}
 \label{fig:tree}
 \end{center}
@@ -136,15 +135,16 @@ a p-value. We will do this through parametric bootstrap, as follows (later will 
 now just seeing if it works):
 
 <<label=bootstrap>>=
-#null.dss<-calc.null.pboot(salmonella,B=1,270,9)
-#null.syn<-calc.null.pboot.syn(salmonella,B=1,270,9,syn.matrix=regist.synonym())
+set.seed(100)
+null.dss<-calc.null.pboot(salmonella,B=1,270,9)
+null.syn<-calc.null.pboot.syn(salmonella,B=1,270,9,syn.matrix=regist.synonym())
 @
 
 Note: if the codeml and evolver executables are not in a directory specified by your PATH variable
 (i.e. you are unable to run them from any directory), you will need to specify what directory they
 are in when running the bootstrap functions. For example, 
 \begin{verbatim}
-null.dss<-calc.null.pboot(salmonella,B=1,270,9,codeml="/directory/codeml",evolver="/directory/evolverNSsites 6")
+null.dss<-calc.null.pboot(salmonella,B=1,270,9,codeml="/directory/codeml",evolver="/directory/evolverNSsites")
 \end{verbatim}
 
 Also,

@@ -1,5 +1,5 @@
 calc.null.pboot <-
-function(data,B,l,m,exhaustive=F,codeml="codeml",evolver="evolverNSsites 6"){
+function(data,B,l,m,exhaustive=F,codeml="codeml",evolver="evolverNSsites"){
    distance<-dist.dna(as.DNAbin(data),model="F84")*3
    ols.tree<-nnls.tree(distance,bionj(distance),trace=0)
    params<-paml.codeml(data,ols.tree,codeml)

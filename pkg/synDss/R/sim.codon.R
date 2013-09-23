@@ -1,5 +1,5 @@
 sim.codon <-
-function(n.taxa,n.codons,reps,tree,freqs=c(0.6,0.3,0.1),omega=c(0.1,0.8,3.2),kap=2,call="evolverNSsites 6"){
+function(n.taxa,n.codons,reps,tree,freqs=c(0.6,0.3,0.1),omega=c(0.1,0.8,3.2),kap=2,call="evolverNSsites"){
    tree<-write.tree(tree)
    # need to add error checking, or else it will create directories and crash before it can remove them
    current.dir<-getwd()
@@ -7,7 +7,7 @@ function(n.taxa,n.codons,reps,tree,freqs=c(0.6,0.3,0.1),omega=c(0.1,0.8,3.2),kap
    while(length(tmp)<(n.taxa+6)){	# fault tolerance
       temp.dir<-make.dat(n.taxa,n.codons,reps,tree,freqs,omega,kap) # write paml.dat and return the dir it is in
       setwd(temp.dir)	
-      command<-paste(call,"paml.dat")
+      command<-paste(call,"6 paml.dat")
       system(command,ignore.stdout=T,show.output.on.console=F)
       tmp<-readLines("mc.paml")
       if(length(tmp)<(n.taxa+6)){
