@@ -1,5 +1,4 @@
 "readdb"<-function(basename){
-library(ape)
 probs<-read.table(paste(basename,".topoprob",sep=""))
 profile<-read.table(paste(basename,".profile",sep=""))
 P<-as.integer(scan(paste(basename,".phy",sep=""),what='raw',nlines=1)[1])

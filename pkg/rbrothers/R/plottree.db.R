@@ -1,7 +1,5 @@
 "plottree.db" <- function(x,numplot=4,makepic="FALSE",ext="png",type="unrooted",colors=NULL,threshold=0) {
 
-library(ape)
-
 basename<-x[[1]]
 probs<-x[[2]]
 profile<-x[[3]]

@@ -3,7 +3,6 @@ if(ext!="png"&ext!="pdf"){
  print("ext must be pdf or png")
  return()
 }
-library(ape)
 
 basename<-x[[1]]
 probs<-x[[2]]
