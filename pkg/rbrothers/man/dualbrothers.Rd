@@ -4,7 +4,7 @@
 \description{
   DualBrothers generates a posterior sample based on the dual Multiple Change-Point model.
 }
-\usage{dualbrothers(seed,alignment,format="interleaved",window.size=NULL,basename=alignment,length=2100000,burnin=100000,subsample=200,par_lambda=NULL,top_lambda=NULL,window_length=10,C=0.3,sigma_alpha=0.75,sigma_mu=0.75,subst_hyper_mean=-1,subst_hyper_variance=-1,diver_hyper_mean=-1,diver_hyper_variance=-1,top_breaks=1,par_breaks=1, step.size = 10,boot=0,inputtrees=NULL)}
+\usage{dualbrothers(seed,alignment,window.size=NULL,length=2100000,burnin=100000,...)}
 \arguments{
   \item{seed}{integer used to seed the pseudo-random number generator (required)}
   \item{alignment}{a string in quotes ("alignment") that requires the alignment.fasta file or the alignment.phy file to be in the current working directory (required)}
