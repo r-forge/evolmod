@@ -41,7 +41,7 @@
 \SweaveOpts{keep.source=FALSE}
 
 \begin{document}
-
+%\VignetteIndexEntry{rbrothers_tutorial}
 <<echo=FALSE>>=
 options(width=60, continue=" ")
 @
