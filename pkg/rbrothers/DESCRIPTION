@@ -4,7 +4,7 @@ Date: 2013-08-09
 Title: rbrothers: multiple change-point recombination detection
 Author: Vladimir Minin, Jan Irvahn
 Maintainer: Jan Irvahn <ji26@uw.edu>
-Description: rbrothers is a phylogenetic recombination detection package. Starting with aligned DNA sequences, rbrothers uses the Bayesian multiple change-point model implemented in the JAVA package DualBrothers to create posterior tree probability plots. rbrothers automates the production of a reasonable set of candidate trees and provides trace plots and autocorrelation plots that allow the user to monitor the covergence and mixing of the Markov chain Monte Carlo algorithm.
+Description: rbrothers is a phylogenetic recombination detection package. Starting with aligned DNA sequences, rbrothers uses the Bayesian multiple change-point model implemented in the JAVA package DualBrothers to create posterior tree probability plots. rbrothers automates the production of a reasonable set of candidate trees and provides trace plots and autocorrelation plots that allow the user to monitor the convergence and mixing of the Markov chain Monte Carlo algorithm.
 Depends: R (>= 2.7.0), rJava (>= 0.5-0), ape, coda
 SystemRequirements: Java (>= 1.5)
 License: GPL-3

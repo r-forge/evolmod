@@ -33,7 +33,6 @@
     }
    }
 
-library(ape)
 
 write.dna<-function (x, file, format = "interleaved", append = FALSE, nbcol = 6,colsep = " ", colw = 10, indent = NULL, blocksep = 1) 
 {
