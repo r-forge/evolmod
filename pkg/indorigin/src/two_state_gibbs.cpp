@@ -159,7 +159,7 @@ NumericVector twoStateUnifSample(arma::mat& rateMatrix, int startState, int endS
   2. tip state vector is ordered according to the tip numbering in the edge matrix
 */
 
-arma::mat StatePartLikelihoods(IntegerMatrix& treeEdges, IntegerVector& tipStates, 
+arma::mat PartLikelihoods(IntegerMatrix& treeEdges, IntegerVector& tipStates, 
                                   arma::cube& cubeProbMat){
 
   /// get number of edges
@@ -215,7 +215,7 @@ NumericVector twoStateSufficientStatistics(IntegerMatrix treeEdges, IntegerVecto
   }
   
   // Compute partial likelihoods at all internal nodes
-  arma::mat partLike = StatePartLikelihoods(treeEdges, tipStates, cubeProbMat);   
+  arma::mat partLike = PartLikelihoods(treeEdges, tipStates, cubeProbMat);   
   
   // Sample sufficient statistics
   NumericVector suffStat(4); // (n_{0->1}, n_{1->0}, t_0, t_1) 
