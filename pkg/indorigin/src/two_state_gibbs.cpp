@@ -192,6 +192,33 @@ arma::mat PartLikelihoods(IntegerMatrix& treeEdges, IntegerVector& tipStates,
 }
 
 // [[Rcpp::export]]
+double TwoStatePhyloLikelihood(IntegerMatrix& treeEdges, IntegerVector& tipStates, 
+                               NumericVector& branchLengths, double lambda_01, double lambda_10,
+                               NumericVector& rootDist){
+                                 
+  // convert to rootDist to arma:rowvec
+  arma::colvec armaRootDist = as<arma::colvec>(rootDist);
+
+  // get number of edges
+  int numEdges = treeEdges.nrow();
+  
+  // get number of tips
+  int numTips = tipStates.size();
+
+  // Compute transition probabilities for each branch on the tree and store in arma:cube
+  arma::cube cubeProbMat(2,2,numEdges);
+  
+  for (int i=0; i < numEdges; i++){
+    cubeProbMat.slice(i) = twoStateTransProb(lambda_01, lambda_10, branchLengths[i]);
+  }
+  
+  // Compute partial likelihoods at all internal nodes
+  arma::mat partLike = PartLikelihoods(treeEdges, tipStates, cubeProbMat);  
+  
+  return sum(partLike.row(numTips).t()%armaRootDist);
+}
+
+// [[Rcpp::export]]
 NumericVector twoStateSufficientStatistics(IntegerMatrix treeEdges, IntegerVector tipStates, 
                                            NumericVector branchLengths, double lambda_01, double lambda_10,
                                            NumericVector rootDist){
