@@ -1,0 +1,11 @@
+Package: indorigin
+Type: Package
+Title: What the package does (short line)
+Version: 0.0.1
+Date: 2013-10-15
+Author: Vladimir N. MInin
+Maintainer: Who to complain to <yourfault@somewhere.net>
+Description: More about what it does (maybe more than one line)
+License: What Licence is it under ?
+Depends: Rcpp (>= 0.10.5), RcppArmadillo (>= 0.3.920.1)
+LinkingTo: Rcpp, RcppArmadillo
