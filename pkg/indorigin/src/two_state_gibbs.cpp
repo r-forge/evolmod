@@ -159,11 +159,11 @@ NumericVector twoStateUnifSample(arma::mat& rateMatrix, int startState, int endS
   2. tip state vector is ordered according to the tip numbering in the edge matrix
 */
 
-arma::mat PartLikelihoods(IntegerMatrix& treeEdges, IntegerVector& tipStates, 
+arma::mat PartLikelihoods(arma::Mat<int>& treeEdges, IntegerVector& tipStates, 
                                   arma::cube& cubeProbMat){
 
   /// get number of edges
-  int numEdges = treeEdges.nrow();
+  int numEdges = treeEdges.n_rows;
   
   // get number of internal notes
   int numIntNodes = numEdges/2;
@@ -174,25 +174,26 @@ arma::mat PartLikelihoods(IntegerMatrix& treeEdges, IntegerVector& tipStates,
   // prepare a matrix for storing regular (backward) partial likelihoods
   arma::mat partialLike = arma::zeros<arma::mat>(numTips + numIntNodes, 2);
 
+
   for (int i=0; i < numTips; i++){
     if (tipStates[i] == -1){// -1 denotes a missing value
       partialLike.row(i) = arma::ones<arma::rowvec>(2);
     }else{
-      partialLike(i, tipStates[i]) = 1.0;
+      partialLike(i, tipStates(i)) = 1.0;
     }
   }
 
   // compute regular partial likelihoods for all internal nodes
-  for (int i=0; i < numEdges; i+=2){    
+  for (int i=0; i < numEdges; i+=2){
     // parent1 = treeEdges[i,0] or treeEdges[i+1,0] also treeEdges indices should be shifted down by one
-    partialLike.row(treeEdges(i,0)-1) = (partialLike.row(treeEdges(i,1)-1)*cubeProbMat.slice(i).t())%(partialLike.row(treeEdges(i+1,1)-1)*cubeProbMat.slice(i+1).t());            
+    partialLike.row(treeEdges(i,0)-1) = (partialLike.row(treeEdges(i,1)-1)*cubeProbMat.slice(i).t())%(partialLike.row(treeEdges(i+1,1)-1)*cubeProbMat.slice(i+1).t());
   }
+
 
   return partialLike;
 }
 
-// [[Rcpp::export]]
-double TwoStatePhyloLikelihood(IntegerMatrix& treeEdges, IntegerVector& tipStates, 
+double TwoStatePhyloLikelihood(arma::Mat<int>& treeEdges, IntegerVector& tipStates, 
                                NumericVector& branchLengths, double lambda_01, double lambda_10,
                                NumericVector& rootDist){
                                  
@@ -200,7 +201,7 @@ double TwoStatePhyloLikelihood(IntegerMatrix& treeEdges, IntegerVector& tipState
   arma::colvec armaRootDist = as<arma::colvec>(rootDist);
 
   // get number of edges
-  int numEdges = treeEdges.nrow();
+  int numEdges = treeEdges.n_rows;
   
   // get number of tips
   int numTips = tipStates.size();
@@ -209,7 +210,7 @@ double TwoStatePhyloLikelihood(IntegerMatrix& treeEdges, IntegerVector& tipState
   arma::cube cubeProbMat(2,2,numEdges);
   
   for (int i=0; i < numEdges; i++){
-    cubeProbMat.slice(i) = twoStateTransProb(lambda_01, lambda_10, branchLengths[i]);
+    cubeProbMat.slice(i) = twoStateTransProb(lambda_01, lambda_10, branchLengths(i));
   }
   
   // Compute partial likelihoods at all internal nodes
@@ -219,14 +220,14 @@ double TwoStatePhyloLikelihood(IntegerMatrix& treeEdges, IntegerVector& tipState
 }
 
 // [[Rcpp::export]]
-NumericVector twoStateSufficientStatistics(IntegerMatrix treeEdges, IntegerVector tipStates, 
-                                           NumericVector branchLengths, double lambda_01, double lambda_10,
-                                           NumericVector rootDist){
+NumericVector twoStateSufficientStatistics(arma::Mat<int>& treeEdges, IntegerVector& tipStates, 
+                                           NumericVector& branchLengths, double lambda_01, double lambda_10,
+                                           NumericVector& rootDist){
   // convert to rootDist to arma:rowvec
   arma::colvec armaRootDist = as<arma::colvec>(rootDist);
 
   // get number of edges
-  int numEdges = treeEdges.nrow();
+  int numEdges = treeEdges.n_rows;
   
   // get number of tips
   int numTips = tipStates.size();
@@ -237,12 +238,15 @@ NumericVector twoStateSufficientStatistics(IntegerMatrix treeEdges, IntegerVecto
   // Compute transition probabilities for each branch on the tree and store in arma:cube
   arma::cube cubeProbMat(2,2,numEdges);
   
+ 
+  
   for (int i=0; i < numEdges; i++){
-    cubeProbMat.slice(i) = twoStateTransProb(lambda_01, lambda_10, branchLengths[i]);
+    cubeProbMat.slice(i) = twoStateTransProb(lambda_01, lambda_10, branchLengths(i));
   }
   
+  
   // Compute partial likelihoods at all internal nodes
-  arma::mat partLike = PartLikelihoods(treeEdges, tipStates, cubeProbMat);   
+  arma::mat partLike = PartLikelihoods(treeEdges, tipStates, cubeProbMat); 
   
   // Sample sufficient statistics
   NumericVector suffStat(4); // (n_{0->1}, n_{1->0}, t_0, t_1) 
@@ -273,10 +277,30 @@ NumericVector twoStateSufficientStatistics(IntegerMatrix treeEdges, IntegerVecto
   return suffStat;
 }
 
-arma::mat twoStatePhyloGibbsSampler(IntegerMatrix treeEdges, IntegerVector tipStates, 
-                                    NumericMatrix branchLengths, double initial_lambda_01, 
-                                    double initiallambda_10,
-                                    NumericVector rootDist){
+// [[Rcpp::export]]
+NumericVector twoStatePhyloGibbsSampler(IntegerVector treeEdges, IntegerVector cubeDims, NumericMatrix branchLengths,
+                                    NumericVector rootDist, IntegerMatrix tipStates, double initial_lambda_01, 
+                                    double initial_lambda_10, double prior_alpha_01, double prior_beta_01, 
+                                    double prior_alpha_10, double prior_beta_10, int mcmcSize, int mcmcBurnin, 
+                                    int mcmcSubsample){
 
-  return 0;
+  // Make a cube of tree edge matrices
+  arma::Cube<int> cubeTreeEdges(treeEdges.begin(), cubeDims[0], cubeDims[1], cubeDims[2], false);
+
+  // Make a vector of branchLengths vectors (needed to be able to pass NumericVectors to downstream functions)
+  std::vector<NumericVector> vecBranchLengths(branchLengths.ncol());  
+  for( int i=0; i<branchLengths.ncol(); i++){
+        vecBranchLengths[i] = branchLengths(_,i);
+  }
+  
+  // Make a vector of branchLengths vectors (needed to be able to pass IntegerVectors to downstream functions)
+  std::vector<IntegerVector> vecTipStates(tipStates.ncol());  
+  for( int i=0; i<tipStates.ncol(); i++){
+    vecTipStates[i] = tipStates(_,i);
+  }
+
+  NumericVector x = twoStateSufficientStatistics(cubeTreeEdges.slice(0), vecTipStates[0], vecBranchLengths[0], 
+                                                 initial_lambda_01, initial_lambda_10, rootDist);
+
+  return x;
 }
