@@ -54,9 +54,6 @@ int sampleOnce(arma::colvec weights, double rUnif) {
 
 NumericVector twoStateUnifSample(arma::mat& rateMatrix, int startState, int endState, double elapsedTime, double transProb){
  
-  // TO DO: move later to the Gibbs funciton
-  RNGScope scope; 
- 
   int numStates = rateMatrix.n_cols;
  
   // Set the rate of the dominating Poisson process
@@ -284,8 +281,11 @@ NumericVector twoStatePhyloGibbsSampler(IntegerVector treeEdges, IntegerVector c
                                     double prior_alpha_10, double prior_beta_10, int mcmcSize, int mcmcBurnin, 
                                     int mcmcSubsample){
 
+  RNGScope scope; 
+
   // Make a cube of tree edge matrices
   arma::Cube<int> cubeTreeEdges(treeEdges.begin(), cubeDims[0], cubeDims[1], cubeDims[2], false);
+
 
   // Make a vector of branchLengths vectors (needed to be able to pass NumericVectors to downstream functions)
   std::vector<NumericVector> vecBranchLengths(branchLengths.ncol());  
@@ -299,8 +299,51 @@ NumericVector twoStatePhyloGibbsSampler(IntegerVector treeEdges, IntegerVector c
     vecTipStates[i] = tipStates(_,i);
   }
 
-  NumericVector x = twoStateSufficientStatistics(cubeTreeEdges.slice(0), vecTipStates[0], vecBranchLengths[0], 
-                                                 initial_lambda_01, initial_lambda_10, rootDist);
+  // prepare an MCMC output matrix
+  int numSavedSamples = (mcmcSize-mcmcBurnin)/mcmcSubsample;
+  NumericMatrix mcmcOut(numSavedSamples, 8);
 
-  return x;
+  int stepCount = mcmcSubsample - 1;
+  
+  int numTrees = branchLengths.ncol(); 
+  arma::colvec unifWeights = arma::ones<arma::vec>(numTrees);
+  
+  NumericVector suffStat;
+  double lambda_01 = initial_lambda_01;
+  double lambda_10 = initial_lambda_10;
+  
+  for (int i=0; i<mcmcSize; i++){
+
+    //sample a tree from the list uniformly at random
+    int treeInd = sampleOnce(unifWeights, as<double>(runif(1)));
+        
+    // sample CTMC sufficient statists
+    suffStat= twoStateSufficientStatistics(cubeTreeEdges.slice(treeInd), vecTipStates[treeInd], 
+                                           vecBranchLengths[treeInd], lambda_01, lambda_10, rootDist);    
+    // sample CTMC rates
+    lambda_01 = ::Rf_rgamma(prior_alpha_01+suffStat(0), 1/(prior_beta_01+suffStat(2)));
+    lambda_10 = ::Rf_rgamma(prior_alpha_10+suffStat(1), 1/(prior_beta_10+suffStat(3)));
+
+    if (i > mcmcBurnin-1){
+  
+      stepCount++;
+      
+      if(stepCount==mcmcSubsample){
+        Rcout<<"iteration "<<i+1<<" completed"<<arma::endl;
+        int curIndex = (i-mcmcBurnin+mcmcSubsample)/mcmcSubsample-1;
+        mcmcOut(curIndex,0)= i;
+        mcmcOut(curIndex,1)= 0;//suff.stat$jumps[1,2]*log(lambda1)+ suff.stat$jumps[2,1]*log(lambda2)- suff.stat$dwell.times[1]*lambda1 - suff.stat$dwell.times[2]*lambda2 + dgamma(lambda1, shape = prior.alpha1, rate = prior.beta1, log=TRUE)+ dgamma(lambda2, shape = prior.alpha2, rate = prior.beta2, log=TRUE) 
+        mcmcOut(curIndex,2)= lambda_01; // rate of jumping 0->1
+        mcmcOut(curIndex,3)= lambda_10; // rate of jumping 1->0
+        mcmcOut(curIndex,4)= suffStat(0); // # of jumps 0->1
+        mcmcOut(curIndex,5)= suffStat(1); // # of jumps 1->0
+        mcmcOut(curIndex,6)= suffStat(2); // time spent in state 0
+        mcmcOut(curIndex,7)= suffStat(3); // time spent in state 1
+        
+        stepCount=0;
+      }
+    }
+  }
+
+  return mcmcOut;
 }

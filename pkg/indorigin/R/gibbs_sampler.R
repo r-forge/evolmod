@@ -1,6 +1,7 @@
 runTwoStateGibbs = function(inputTrees, rootDist, traitData, initLambda01, initLambda10, priorAlpha01, priorBeta01, priorAlpha10, priorBeta10, mcmcSize, mcmcBurnin, mcmcSubsample){
   
   ## Prepare trees and trait data  for Rcpp code
+  cat("pre-processing trees and trait data", "\n")
   
   if (!("multiPhylo" %in% class(inputTrees)))
     stop("Error: object \"inputTrees\" is not of class \"multiPhylo\"")
@@ -41,10 +42,18 @@ did not match: the former were ignored in the analysis.')
     }        
   }
   
-  x = twoStatePhyloGibbsSampler(treeEdges, dim(treeEdges), treeBranchLengths, rootDist, treeTraits, 
+  ## Run Gibbs sampler that iterates between drawing from the full conditional of missing data
+  ## and drawing from the full conditional of model parameters (rates 0->1 and 1->0)
+  
+  cat("running Gibbs sampler", "\n")
+  
+  mcmcOut = twoStatePhyloGibbsSampler(treeEdges, dim(treeEdges), treeBranchLengths, rootDist, treeTraits, 
                                 initLambda01, initLambda10, priorAlpha01, priorBeta01, priorAlpha10, 
                                 priorBeta10, mcmcSize, mcmcBurnin, mcmcSubsample)
+
+  colnames(mcmcOut) = c("iter", "log.post", "lambda01", "lambda10", "n.01", "n.10", "t.0", "t.1")
   
-  return(x)
+  
+  return(mcmcOut)
   #return(treeEdges)
 }
