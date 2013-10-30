@@ -52,9 +52,9 @@ did not match: the former were ignored in the analysis.')
                                 initLambda01, initLambda10, priorAlpha01, priorBeta01, priorAlpha10, 
                                 priorBeta10, mcmcSize, mcmcBurnin, mcmcSubsample)
 
-  colnames(mcmcOut) = c("iter", "logPost", "lambda01", "lambda10", "n01", "n10", "t0", "t1")
+  colnames(mcmcOut) = c("iter", "treeIndex", "logPost", "lambda01", "lambda10", "n01", "n10", "t0", "t1")
   
   
-  return(mcmcOut)
+  return(list(treeList=inputTrees, mcmcOutput=mcmcOut))
   #return(treeEdges)
 }

@@ -316,7 +316,7 @@ NumericVector twoStatePhyloGibbsSampler(IntegerVector treeEdges, IntegerVector c
 
   // prepare an MCMC output matrix
   int numSavedSamples = (mcmcSize-mcmcBurnin)/mcmcSubsample;
-  NumericMatrix mcmcOut(numSavedSamples, 8);
+  NumericMatrix mcmcOut(numSavedSamples, 9);
 
   int stepCount = mcmcSubsample - 1;
   
@@ -353,15 +353,16 @@ NumericVector twoStatePhyloGibbsSampler(IntegerVector treeEdges, IntegerVector c
       if(stepCount==mcmcSubsample){
         Rcout<<"iteration "<<i+1<<" completed"<<arma::endl;
         int curIndex = (i-mcmcBurnin+mcmcSubsample)/mcmcSubsample-1;
-        mcmcOut(curIndex,0)= i;
-        mcmcOut(curIndex,1) = twoStateCompleteDataLogPosterior(suffStat, lambda_01, lambda_10, 
+        mcmcOut(curIndex,0) = i;
+        mcmcOut(curIndex,1) = treeInd;
+        mcmcOut(curIndex,2) = twoStateCompleteDataLogPosterior(suffStat, lambda_01, lambda_10, 
                                          prior_alpha_01, prior_beta_01, prior_alpha_10, prior_beta_10);
-        mcmcOut(curIndex,2)= lambda_01; // rate of jumping 0->1
-        mcmcOut(curIndex,3)= lambda_10; // rate of jumping 1->0
-        mcmcOut(curIndex,4)= suffStat(0); // # of jumps 0->1
-        mcmcOut(curIndex,5)= suffStat(1); // # of jumps 1->0
-        mcmcOut(curIndex,6)= suffStat(2); // time spent in state 0
-        mcmcOut(curIndex,7)= suffStat(3); // time spent in state 1
+        mcmcOut(curIndex,3) = lambda_01; // rate of jumping 0->1
+        mcmcOut(curIndex,4) = lambda_10; // rate of jumping 1->0
+        mcmcOut(curIndex,5) = suffStat(0); // # of jumps 0->1
+        mcmcOut(curIndex,6) = suffStat(1); // # of jumps 1->0
+        mcmcOut(curIndex,7) = suffStat(2); // time spent in state 0
+        mcmcOut(curIndex,8) = suffStat(3); // time spent in state 1
         
         stepCount=0;
       }
