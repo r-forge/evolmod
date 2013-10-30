@@ -274,6 +274,21 @@ NumericVector twoStateSufficientStatistics(arma::Mat<int>& treeEdges, IntegerVec
   return suffStat;
 }
 
+
+// [[Rcpp::export]]
+double twoStateCompleteDataLogPosterior(NumericVector suffStat, double lambda_01, double lambda_10, 
+                                         double prior_alpha_01, double prior_beta_01, 
+                                         double prior_alpha_10, double prior_beta_10){
+  
+  double completeDataLogLike = suffStat(0)*log(lambda_01) + suffStat(1)*log(lambda_10) 
+                               - suffStat(2)*lambda_01 - suffStat(3)*lambda_10 
+                               + ::Rf_dgamma(lambda_01, prior_alpha_01, 1/prior_beta_01, 1)
+                               + ::Rf_dgamma(lambda_10, prior_alpha_10, 1/prior_beta_10, 1); 
+  
+  return completeDataLogLike;
+
+}
+
 // [[Rcpp::export]]
 NumericVector twoStatePhyloGibbsSampler(IntegerVector treeEdges, IntegerVector cubeDims, NumericMatrix branchLengths,
                                     NumericVector rootDist, IntegerMatrix tipStates, double initial_lambda_01, 
@@ -318,8 +333,15 @@ NumericVector twoStatePhyloGibbsSampler(IntegerVector treeEdges, IntegerVector c
     int treeInd = sampleOnce(unifWeights, as<double>(runif(1)));
         
     // sample CTMC sufficient statists
-    suffStat= twoStateSufficientStatistics(cubeTreeEdges.slice(treeInd), vecTipStates[treeInd], 
-                                           vecBranchLengths[treeInd], lambda_01, lambda_10, rootDist);    
+    suffStat = twoStateSufficientStatistics(cubeTreeEdges.slice(treeInd), vecTipStates[treeInd], 
+                                           vecBranchLengths[treeInd], lambda_01, lambda_10, rootDist);
+    //Rcout<<"Tip states: ";
+    //for( int i=0; i<vecTipStates[treeInd].size(); i++){
+    //  Rcout<<vecTipStates[treeInd](i)<<" ";
+    //}
+    //Rcout<<arma::endl;
+    //Rcout<<"l01="<<lambda_01<<" l10="<<lambda_10;                                       
+    //Rcout<<"n01="<<suffStat(0)<<" n10="<<suffStat(1)<<" t0="<<suffStat(2)<<" t1="<<suffStat(3)<<arma::endl;                                       
     // sample CTMC rates
     lambda_01 = ::Rf_rgamma(prior_alpha_01+suffStat(0), 1/(prior_beta_01+suffStat(2)));
     lambda_10 = ::Rf_rgamma(prior_alpha_10+suffStat(1), 1/(prior_beta_10+suffStat(3)));
@@ -332,7 +354,8 @@ NumericVector twoStatePhyloGibbsSampler(IntegerVector treeEdges, IntegerVector c
         Rcout<<"iteration "<<i+1<<" completed"<<arma::endl;
         int curIndex = (i-mcmcBurnin+mcmcSubsample)/mcmcSubsample-1;
         mcmcOut(curIndex,0)= i;
-        mcmcOut(curIndex,1)= 0;//suff.stat$jumps[1,2]*log(lambda1)+ suff.stat$jumps[2,1]*log(lambda2)- suff.stat$dwell.times[1]*lambda1 - suff.stat$dwell.times[2]*lambda2 + dgamma(lambda1, shape = prior.alpha1, rate = prior.beta1, log=TRUE)+ dgamma(lambda2, shape = prior.alpha2, rate = prior.beta2, log=TRUE) 
+        mcmcOut(curIndex,1) = twoStateCompleteDataLogPosterior(suffStat, lambda_01, lambda_10, 
+                                         prior_alpha_01, prior_beta_01, prior_alpha_10, prior_beta_10);
         mcmcOut(curIndex,2)= lambda_01; // rate of jumping 0->1
         mcmcOut(curIndex,3)= lambda_10; // rate of jumping 1->0
         mcmcOut(curIndex,4)= suffStat(0); // # of jumps 0->1

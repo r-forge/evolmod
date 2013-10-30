@@ -30,9 +30,10 @@ runTwoStateGibbs = function(inputTrees, rootDist, traitData, initLambda01, initL
     
     treeEdges[,,i] = tempTree$edge
     treeBranchLengths[,i] = tempTree$edge.length
+    treeTraits[,i] = traitData
     
     ## reorder data on tips to match the order of the my.tree phylo object
-    if (!is.null(names(traitData))) {
+    if (!is.null(names(traitData))){
       if(!any(is.na(match(names(traitData), tempTree$tip.label)))){
         treeTraits[,i] = traitData[tempTree$tip.label]
       }else{
@@ -51,7 +52,7 @@ did not match: the former were ignored in the analysis.')
                                 initLambda01, initLambda10, priorAlpha01, priorBeta01, priorAlpha10, 
                                 priorBeta10, mcmcSize, mcmcBurnin, mcmcSubsample)
 
-  colnames(mcmcOut) = c("iter", "log.post", "lambda01", "lambda10", "n.01", "n.10", "t.0", "t.1")
+  colnames(mcmcOut) = c("iter", "logPost", "lambda01", "lambda10", "n01", "n10", "t0", "t1")
   
   
   return(mcmcOut)
