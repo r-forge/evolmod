@@ -9,10 +9,26 @@
 #define TREE_SUM_H_
 
 #include "pclt.h"
+#include "two_state_gibbs.h"
 using namespace Rcpp;
-RcppExport SEXP treeCltSum(SEXP r_edge_matrix, SEXP r_branch_lengths,
-        SEXP r_tip_states, SEXP r_rate_1, SEXP r_rate_2, SEXP r_n_max);
 
+// in-place functors for arma::transform()
+struct ip_exp {
+    ip_exp() {};
+    double operator()(const double x) {
+        return exp(x);
+    };
+};
+
+struct ip_log {
+    ip_log() {};
+    double operator()(const double x) {
+        return log(x);
+    };
+};
+
+RcppExport SEXP treeConvolve(SEXP r_edge_matrix, SEXP r_branch_lengths,
+        SEXP r_tip_states, SEXP r_rate_0, SEXP r_rate_1, SEXP r_n_max, SEXP r_root_p_0);
 
 template <typename T>
 void printElements(const arma::Mat<T> & A, const std::string & header) {
@@ -44,19 +60,66 @@ void printElements(const arma::Col<T> & A, const std::string & header) {
     return;
 }
 
+// annoying, cannot get arma::max to work with subviews
+double colviewMax(const arma::subview_col<double> & col_view)
+{
+    const int len = col_view.n_elem;
+    if (len == 0)
+        Rcpp::stop("cannot take max of zero-length view");
+    double m = col_view[0];
+    for(int i = 1; i < len; i++) {
+        if (m < col_view[i])
+            m = col_view[i];
+    }
+    return m;
+}
+
+void updateRescaleValues(arma::cube & probs,
+        double & rescale, const int & par_node_idx);
+
 class TreeWorkspace {
 private:
     arma::vec branch_lengths;
     arma::ivec tip_states;
     arma::imat edge_matrix;
     arma::cube q_probs, prior_probs, posterior_probs;
-    arma::mat branch_frac_lik;
+    double prior_rescale, post_rescale;
+    int n_max, num_edges, num_tips;
 
-    int n_max, num_edges, num_tips, num_internal_nodes;
-    double prior_rescale_value;
-    double post_rescale_value;
     void initializeTips();
+
+    inline void fillBranchProbs(const double & rate_01, const double & rate_10)
+    {
+        fillTransProb(0, rate_01, rate_10);
+        fillTransProb(1, rate_10, rate_01);
+    }
+
+    void fillTransProb(const int & init_idx, const double & rate_init,
+            const double & rate_next);
+
+    void fillNodeProbs(const int & first_br_idx);
+
+    double convolveBelowNode_0(const arma::cube & node_probs,
+            const int & left_br_idx, const int & right_br_idx,
+            const int & n) const;
+
+    double convolveBelowNode_1(const arma::cube & node_probs,
+            const int & left_br_idx, const int & right_br_idx,
+            const int & n) const;
+
 public:
+    const arma::vec & getBranchLengths() const {
+        return branch_lengths;
+    }
+
+    int getParentNode(const int & branch_idx) const {
+        return edge_matrix(branch_idx, 0);
+    }
+
+    int getChildNode(const int & branch_idx) const {
+        return edge_matrix(branch_idx, 1);
+    }
+
     double getBranchLength(const int & idx) const {
         return branch_lengths[idx];
     }
@@ -77,25 +140,15 @@ public:
         return prior_probs;
     }
 
+    const arma::imat & getEdgeMatrix() const {
+        return edge_matrix;
+    }
+
+    arma::mat convolveTree(const double & rate_01,
+            const double & rate_10, const double & root_node_prob_0);
+
     TreeWorkspace(SEXP r_edge_matrix, SEXP r_branch_lengths, SEXP r_tip_states,
                 SEXP r_n_max);
-
-    void fillTransProb(const int & init_idx, const double & rate_init,
-            const double & rate_next);
-
-    void fillNodeProbs(const int & first_br_idx);
-
-    void computeRootDist();
-
-    double convolveBelowNode_0(const arma::cube & node_probs,
-            const int & left_br_idx, const int & right_br_idx,
-            const int & n) const;
-
-    double convolveBelowNode_1(const arma::cube & node_probs,
-            const int & left_br_idx, const int & right_br_idx,
-            const int & n) const;
 };
-
-inline void fillBranchProbs(TreeWorkspace & tree, const double & rate_0, const double & rate_1);
 
 #endif /* TREE_SUM_H_ */
