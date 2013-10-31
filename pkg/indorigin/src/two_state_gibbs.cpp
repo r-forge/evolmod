@@ -1,12 +1,9 @@
-#include <RcppArmadillo.h>
-#include <RcppArmadilloExtensions/sample.h>
-
-using namespace Rcpp; 
+#include "two_state_gibbs.h"
 
 // Computes finite time transition probabilities using analytic formulae.
 // State space is {0,1}
 
-arma::mat twoStateRateMatrix(double lambda_01, double lambda_10){               
+arma::mat twoStateRateMatrix(double lambda_01, double lambda_10) {
 
   arma::mat rate_matrix = arma::mat(2,2);
   
@@ -18,8 +15,7 @@ arma::mat twoStateRateMatrix(double lambda_01, double lambda_10){
   return rate_matrix;
 }
 
-
-arma::mat twoStateTransProb(double lambda_01, double lambda_10, double time){
+arma::mat twoStateTransProb(double lambda_01, double lambda_10, double time) {
 
   double total_rate = lambda_01 + lambda_10;               
 
@@ -32,7 +28,6 @@ arma::mat twoStateTransProb(double lambda_01, double lambda_10, double time){
 
   return prob_matrix;
 }
-
 
 int sampleOnce(arma::colvec weights, double rUnif) {
  
@@ -52,8 +47,8 @@ int sampleOnce(arma::colvec weights, double rUnif) {
 // Samples 2-state continuous-time Markov chain conditional on starting and ending states
 // Saves only sufficient statistics: number of 0->1 jumps, number of 1->0 jumps and dwell times in 0,1
 
-NumericVector twoStateUnifSample(arma::mat& rateMatrix, int startState, int endState, double elapsedTime, double transProb){
- 
+NumericVector twoStateUnifSample(arma::mat& rateMatrix, int startState, int endState, double elapsedTime, double transProb)
+{
   int numStates = rateMatrix.n_cols;
  
   // Set the rate of the dominating Poisson process
@@ -141,7 +136,6 @@ NumericVector twoStateUnifSample(arma::mat& rateMatrix, int startState, int endS
   }
  
  return sufStat;
-  
 }
 
  /* Arguments: 
@@ -156,9 +150,9 @@ NumericVector twoStateUnifSample(arma::mat& rateMatrix, int startState, int endS
   2. tip state vector is ordered according to the tip numbering in the edge matrix
 */
 
-arma::mat PartLikelihoods(arma::Mat<int>& treeEdges, IntegerVector& tipStates, 
-                                  arma::cube& cubeProbMat){
-
+arma::mat PartLikelihoods(const arma::Mat<int> & treeEdges, const IntegerVector & tipStates,
+                                  const arma::cube & cubeProbMat)
+{
   /// get number of edges
   int numEdges = treeEdges.n_rows;
   
@@ -171,28 +165,27 @@ arma::mat PartLikelihoods(arma::Mat<int>& treeEdges, IntegerVector& tipStates,
   // prepare a matrix for storing regular (backward) partial likelihoods
   arma::mat partialLike = arma::zeros<arma::mat>(numTips + numIntNodes, 2);
 
-
-  for (int i=0; i < numTips; i++){
-    if (tipStates[i] == -1){// -1 denotes a missing value
+  for (int i = 0; i < numTips; i++){
+    if (tipStates(i) == -1) {// -1 denotes a missing value
       partialLike.row(i) = arma::ones<arma::rowvec>(2);
-    }else{
+    } else {
       partialLike(i, tipStates(i)) = 1.0;
     }
   }
 
   // compute regular partial likelihoods for all internal nodes
-  for (int i=0; i < numEdges; i+=2){
+  for (int i = 0; i < numEdges; i+=2){
     // parent1 = treeEdges[i,0] or treeEdges[i+1,0] also treeEdges indices should be shifted down by one
-    partialLike.row(treeEdges(i,0)-1) = (partialLike.row(treeEdges(i,1)-1)*cubeProbMat.slice(i).t())%(partialLike.row(treeEdges(i+1,1)-1)*cubeProbMat.slice(i+1).t());
+    partialLike.row(treeEdges(i,0)-1) = (partialLike.row(treeEdges(i,1)-1)*
+            cubeProbMat.slice(i).t())%(partialLike.row(treeEdges(i+1,1)-1)*cubeProbMat.slice(i+1).t());
   }
-
 
   return partialLike;
 }
 
 double TwoStatePhyloLikelihood(arma::Mat<int>& treeEdges, IntegerVector& tipStates, 
                                NumericVector& branchLengths, double lambda_01, double lambda_10,
-                               NumericVector& rootDist){
+                               NumericVector& rootDist) {
                                  
   // convert to rootDist to arma:rowvec
   arma::colvec armaRootDist = as<arma::colvec>(rootDist);
@@ -213,6 +206,29 @@ double TwoStatePhyloLikelihood(arma::Mat<int>& treeEdges, IntegerVector& tipStat
   // Compute partial likelihoods at all internal nodes
   arma::mat partLike = PartLikelihoods(treeEdges, tipStates, cubeProbMat);  
   
+  return sum(partLike.row(numTips).t()%armaRootDist);
+}
+
+double TwoStatePhyloLikelihood(const arma::Mat<int> & treeEdges, const IntegerVector & tipStates,
+                               const arma::vec & branchLengths, const double & lambda_01,
+                               const double & lambda_10, const arma::vec & armaRootDist)
+{
+  // get number of edges
+  int numEdges = treeEdges.n_rows;
+
+  // get number of tips
+  int numTips = tipStates.size();
+
+  // Compute transition probabilities for each branch on the tree and store in arma:cube
+  arma::cube cubeProbMat(2, 2, numEdges);
+
+  for (int i=0; i < numEdges; i++){
+    cubeProbMat.slice(i) = twoStateTransProb(lambda_01, lambda_10, branchLengths(i));
+  }
+
+  // Compute partial likelihoods at all internal nodes
+  arma::mat partLike = PartLikelihoods(treeEdges, tipStates, cubeProbMat);
+
   return sum(partLike.row(numTips).t()%armaRootDist);
 }
 
@@ -278,7 +294,7 @@ NumericVector twoStateSufficientStatistics(arma::Mat<int>& treeEdges, IntegerVec
 // [[Rcpp::export]]
 double twoStateCompleteDataLogPosterior(NumericVector suffStat, double lambda_01, double lambda_10, 
                                          double prior_alpha_01, double prior_beta_01, 
-                                         double prior_alpha_10, double prior_beta_10){
+                                         double prior_alpha_10, double prior_beta_10) {
   
   double completeDataLogLike = suffStat(0)*log(lambda_01) + suffStat(1)*log(lambda_10) 
                                - suffStat(2)*lambda_01 - suffStat(3)*lambda_10 
