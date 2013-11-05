@@ -367,10 +367,10 @@ NumericVector twoStatePhyloGibbsSampler(IntegerVector treeEdges, IntegerVector c
       stepCount++;
       
       if(stepCount==mcmcSubsample){
-        Rcout<<"iteration "<<i+1<<" completed"<<arma::endl;
+        //Rcout<<"iteration "<<i+1<<" completed"<<arma::endl;
         int curIndex = (i-mcmcBurnin+mcmcSubsample)/mcmcSubsample-1;
         mcmcOut(curIndex,0) = i;
-        mcmcOut(curIndex,1) = treeInd;
+        mcmcOut(curIndex,1) = treeInd+1;
         mcmcOut(curIndex,2) = twoStateCompleteDataLogPosterior(suffStat, lambda_01, lambda_10, 
                                          prior_alpha_01, prior_beta_01, prior_alpha_10, prior_beta_10);
         mcmcOut(curIndex,3) = lambda_01; // rate of jumping 0->1

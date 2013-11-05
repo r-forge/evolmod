@@ -6,6 +6,9 @@ treeConvolveTest= function(my.tree, my.data, rate.01, rate.10,
 	if (is.null(my.tree$edge.length))
 		stop("Error: tree \" my.tree\" must have branch lengths.")
 	
+	if (!is.rooted(my.tree))
+	stop("Error: The input tree must be rooted")
+  
 	## reorder data on tips to match the order of the my.tree phylo object
 	my.tree = reorder(my.tree, order = "postorder")
 	if (!is.null(names(my.data))) {
