@@ -81,14 +81,12 @@ did not match: the former were ignored in the analysis.')
   priorProbEst = mean(priorProbs)
   
   bfVector = numeric(5)
-  names(bfVector) = c("Pr(N01<=Thr)", "Pr(N01<=Thr|data)", "BF", "log10(BF)", "2xlog_e(BF)")
+  names(bfVector) = c(paste("Pr(N01<=",as.character(testThreshold),")",sep=""), paste("Pr(N01<=",as.character(testThreshold),"|data)",sep=""), paste("BF for N01<=",as.character(testThreshold),sep=""), "log10(BF)", "2xlog_e(BF)")
   bfVector[1] = priorProbEst
   bfVector[2] = postProbEst
   bfVector[3] = (postProbEst/(1-postProbEst))/(priorProbEst/(1-priorProbEst))
-  bfVector[4] = log10(postProbEst) - log10(1-postProbEst) - log10(priorProbEst) 
-                + log10(1-priorProbEst)
-  bfVector[5] = 2*(log(postProbEst) - log(1-postProbEst) - log(priorProbEst) 
-                + log(1-priorProbEst))  
+  bfVector[4] = log10(postProbEst) - log10(1-postProbEst) - log10(priorProbEst) + log10(1-priorProbEst)
+  bfVector[5] = 2*(log(postProbEst) - log(1-postProbEst) - log(priorProbEst) + log(1-priorProbEst))  
   
   returnList = list(treeList=inputTrees, mcmcOutput=mcmcOut, priorJumpProbs=priorProbs,
                     postJumpProbs=postProbs, probsAndBFs=bfVector)
@@ -127,8 +125,11 @@ getPostProb = function(indOriginResults){
   est = indOriginResults$probsAndBFs[2]
   names(est) = NULL
   mcmcPostJumpProbs = coda::as.mcmc(indOriginResults$postJumpProbs)
+  
   mcSd = sd(indOriginResults$postJumpProbs)/sqrt(coda::effectiveSize(mcmcPostJumpProbs))
+  names(mcSd) = NULL
   confInt = c(est-1.96*mcSd,est+1.96*mcSd)
+  names(confInt) = c("2.5%", "97.5%")
   
   return(list(PostProbEst=est, PostProbSd=mcSd, PostProbConfInt=confInt))
 }
