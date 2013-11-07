@@ -60,7 +60,7 @@ did not match: the former were ignored in the analysis.')
   postProbs = numeric(dim(mcmcOut)[1])
   
   for (i in 1:length(postProbs)){
-    postProbs[i] = sum(exp(treeConvolveTest(inputTrees[[mcmcOut[i,"treeIndex"]]], treeTraits, mcmcOut[i,"lambda01"], mcmcOut[i,"lambda10"], 0, testThreshold)[,"posterior"]))
+    postProbs[i] = sum(exp(treeConvolveTest(inputTrees[[mcmcOut[i,"treeIndex"]]], treeTraits[,mcmcOut[i,"treeIndex"]], mcmcOut[i,"lambda01"], mcmcOut[i,"lambda10"], 0, testThreshold)[,"posterior"]))
   }
   
   postProbEst = mean(postProbs)
@@ -75,7 +75,8 @@ did not match: the former were ignored in the analysis.')
   priorProbs = numeric(mcSize)
   
   for (i in 1:mcSize){
-    priorProbs[i] = sum(exp(treeConvolveTest(inputTrees[[sample(c(1:treeNum),1)]], treeTraits, priorSampleLambda01[i], priorSampleLambda10[i], 0, testThreshold)[,"prior"]))
+    sampledTreeIndex = sample(c(1:treeNum),1)
+    priorProbs[i] = sum(exp(treeConvolveTest(inputTrees[[sampledTreeIndex]], treeTraits[,sampledTreeIndex], priorSampleLambda01[i], priorSampleLambda10[i], 0, testThreshold)[,"prior"]))
   }
   
   priorProbEst = mean(priorProbs)
