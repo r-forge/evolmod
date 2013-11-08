@@ -135,4 +135,11 @@ getPostProb = function(indOriginResults){
   return(list(PostProbEst=est, PostProbSd=mcSd, PostProbConfInt=confInt))
 }
 
+plotPosterior = function(indOriginResults, trace=FALSE){
+  if (!("indorigin" %in% class(indOriginResults)))
+    stop("Error: object \"indOriginResults\" is not of class \"indorigin\"")
+  
+mcmcTable = coda::mcmc(indOriginResults$mcmcOutput[,c("lambda01", "lambda10", "n01", "n10")], thin=as.integer(dim(indOriginResults$mcmcOutput)[1]/5000))
+plot(mcmcTable, trace=trace)
 
+}
