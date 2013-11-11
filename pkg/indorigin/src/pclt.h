@@ -10,8 +10,4 @@ void hypgeoF11_k_2kp1(const double x, arma::subview_col<double> result, const do
 void hypgeoF11_kp1_2kp1(const double x, arma::subview_col<double> result, const double * work_bi);
 void pclt(const double t, const double lambda_1, const double lambda_2,
         arma::subview_col<double> result);
-
-
-RcppExport SEXP hypgeo_test(SEXP rx, SEXP rout);
-RcppExport SEXP pclt_test(SEXP rpar, SEXP rout);
 #endif
