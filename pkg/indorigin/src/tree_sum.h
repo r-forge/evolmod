@@ -28,7 +28,16 @@ struct ip_log {
 };
 
 /* PhyTree class doesn't do much, other than access tree elements
- * in an orderly fashion.
+ * in an orderly fashion. The constructor takes three
+ * arguments:
+ * r_edge_matrix: edge index matrix as from a "phylo" object in
+ *  post-order order (aka pruningwise)
+ * r_branch_lengths: branch lengths from "phylo" object
+ * r_tip_states: vector of 0/1 tip state integer values.
+ *
+ * The class's public interface is essentially immutable
+ * and consists only of getters that help make code
+ * more readable and the tree easier to work with.
  */
 class PhyTree {
 private:
@@ -80,13 +89,20 @@ arma::mat convolveTree(const double & rate_0_to_1,
         const double & next_rate, const double & root_node_prob_0,
         const PhyTree & tree);
 
+/* The PhyConvolver class manages objects used during PhyTree convolution.
+ * In general, a single PhyConvolver should be constructed for each
+ * tree convolution performed. The interface does not yet allow a PhyConvolver
+ * object to be "reset" for use with, e.g., a new set of parameters.
+ * This could be achieved with a simple new member function that basically
+ * sets everything to zero again.
+ */
+
 class PhyConvolver {
 private:
     int n_max;
     bool gains;
     arma::mat transdist_0, transdist_1;
     arma::mat q_probs_0, q_probs_1;
-
 public:
     double rescale;
 

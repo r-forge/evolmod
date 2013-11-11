@@ -7,6 +7,11 @@
 
 #include "tree_sum.h"
 
+/* initialize the node jump distributions depending whether we
+ * compute the prior or posterior. Currently, missing values are
+ * supported for the posterior tip labels but this functionality is
+ * not implemented in R, nor in the posterior likelihood calculator.
+ */
 void PhyConvolver::initializeTransdist(const PhyTree & tree,
         const std::string & dist_type) {
     /* choose between prior and posterior initialization patterns */
@@ -34,6 +39,10 @@ void PhyConvolver::initializeTransdist(const PhyTree & tree,
     return;
 }
 
+/* For a left and right branch index, this function convolves
+ * their child node distribution and branch transition probabilities
+ * combining to "n" jumps from a parent node in state "base_state".
+ */
 double PhyConvolver::convolveBelowNode(const int & left_br_idx,
         const int & right_br_idx, const int & n,
         const int & base_state, const PhyTree & tree) const
@@ -83,7 +92,9 @@ double PhyConvolver::convolveBelowNode(const int & left_br_idx,
     return sum_total;
 }
 
-
+/* divide a node's transition distribution by its maximum
+ * probability value, to help prevent underflow
+ */
 void PhyConvolver::updateRescaleValue(const int & par_node_idx)
 {
     const double m0 = arma::max(transdist_0.col(par_node_idx));
@@ -96,6 +107,9 @@ void PhyConvolver::updateRescaleValue(const int & par_node_idx)
     rescale += log(m);
 }
 
+/* Fill the transition distribution for a parent node,
+ * as identified via a post order index value.
+ */
 void PhyConvolver::fillNodeProbs(const int & post_order_idx,
         const PhyTree & tree)
 {
@@ -117,6 +131,11 @@ void PhyConvolver::fillNodeProbs(const int & post_order_idx,
     return;
 }
 
+/* "Q probs" are the probabilites of n jumps in time t, from
+ * a chain state. We use the pclt function to compute these.
+ * This function fills the q_probs_0/1 members with their proper
+ * values according to branch length and initial state.
+ */
 void PhyConvolver::fillQProbs(const PhyTree & tree, const double & rate_0_to_1,
         const double & rate_1_to_0) {
     double cur_branch_len, prev_branch_len = -1.0;
@@ -140,6 +159,22 @@ void PhyConvolver::fillQProbs(const PhyTree & tree, const double & rate_0_to_1,
     return;
 }
 
+/* Primary function for computing the gains/losses of a trait over
+ * an entire phylogeny.
+ * INPUTS:
+ * tree: a PhyTree object
+ * n_max: max n for which to compute probability
+ * rate_0_to_1, rate_1_to_0: rates of transition between states
+ * root_node_prob_0: probability root node is in state 0
+ * dist_type: either "prior" or "posterior" is computed
+ * gains: if true, gains (0->1) distribution is computed, else losses (1->0)
+ *  distribution is computed
+ *
+ * OUTPUTS:
+ * arma::mat of dimension (n_max + 1, 1), whose k-th element
+ * is the (prior/posterior) probability of k (gains/losses) over
+ * the given phylogeny at the given rates and root distribution.
+ */
 arma::mat convolveTree(const PhyTree & tree, const int & n_max,
         const double & rate_0_to_1, const double & rate_1_to_0,
         const double & root_node_prob_0, const std::string & dist_type,
