@@ -7,6 +7,6 @@ Author: Vladimir N. Minin, Gregory Imholte
 Maintainer: Vladimir N. Minin <vminin@uw.edu>
 Description: To fill later
 License: GPL of some sort
-Depends: Rcpp (>= 0.10.5), RcppArmadillo (>= 0.3.920.1)
+Depends: Rcpp (>= 0.10.5), RcppArmadillo (>= 0.3.920.1), testthat
 Imports: coda (>= 0.16.1)
 LinkingTo: Rcpp, RcppArmadillo
