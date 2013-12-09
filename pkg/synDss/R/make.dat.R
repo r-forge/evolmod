@@ -2,13 +2,11 @@ make.dat <-
 function(n.seq,n.codons,reps,tree,freqs,omega,kap){
    ### Create temporary directory
    current.dir<-getwd()
-   temp.dir<-paste(current.dir,paste("/paml.evolver.",as.character(round(runif(1,0,10000000))),sep=""),sep="")
-   if(file.exists(temp.dir)){
-      unlink(temp.dir, recursive = TRUE)
-   } else{
-      dir.create(temp.dir)
+   temp.dir<-paste(current.dir,paste("/paml.evolver.",as.character(round(runif(1,0,1000000000))),sep=""),sep="")
+   while(file.exists(temp.dir)){
+      temp.dir<-paste(current.dir,paste("/paml.evolver.",as.character(round(runif(1,0,1000000000))),sep=""),sep="")   
    }
-
+   dir.create(temp.dir)
    setwd(temp.dir)
 
    template<-readLines(system.file("paml/template.dat",package="synDss"))
