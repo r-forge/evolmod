@@ -324,7 +324,7 @@ NumericVector twoStatePhyloGibbsSampler(IntegerVector treeEdges, IntegerVector c
         vecBranchLengths[i] = branchLengths(_,i);
   }
   
-  // Make a vector of branchLengths vectors (needed to be able to pass IntegerVectors to downstream functions)
+  // Make a vector of tipStates vectors (needed to be able to pass IntegerVectors to downstream functions)
   std::vector<IntegerVector> vecTipStates(tipStates.ncol());  
   for( int i=0; i<tipStates.ncol(); i++){
     vecTipStates[i] = tipStates(_,i);

@@ -52,6 +52,12 @@ public:
         edge_matrix(as<arma::imat>(r_edge_matrix) - 1),
         num_edges(branch_lengths.n_elem),
         num_tips(tip_states.n_elem) {};
+    PhyTree(arma::imat arma_edge_matrix, arma::vec arma_branch_lengths, arma::ivec arma_tip_states) :
+        branch_lengths(arma_branch_lengths),
+        tip_states(arma_tip_states),
+        edge_matrix(arma_edge_matrix - 1),
+        num_edges(branch_lengths.n_elem),
+        num_tips(tip_states.n_elem) {};
     const arma::vec & getBranchLengths() const {
         return branch_lengths;
     }

@@ -238,3 +238,25 @@ RcppExport SEXP treeConvolve(SEXP r_edge_matrix, SEXP r_branch_lengths,
     return wrap(output);
 }
 
+// [[Rcpp::export]]
+arma::mat AverageTreesConvolve(IntegerVector r_edge_cube, IntegerVector cubeDims, 
+                               arma::mat arma_branch_lengths, arma::imat arma_tip_states, 
+                               double rate_0_to_1, double rate_1_to_0, int n_max, double root_p_0,
+                               std::string dist_type, int gains){
+  
+  // Make a cube of tree edge matrices
+  arma::Cube<int> cubeTreeEdges(r_edge_cube.begin(), cubeDims[0], cubeDims[1], cubeDims[2], false);
+
+
+  int numTrees = arma_branch_lengths.n_cols; 
+
+  PhyTree tree(cubeTreeEdges.slice(0), arma_branch_lengths.col(0), arma_tip_states.col(0));
+
+  arma::mat output = convolveTree(tree, n_max, rate_0_to_1,
+            rate_1_to_0, root_p_0, dist_type, gains);    
+  
+
+    return output;
+}
+
+
