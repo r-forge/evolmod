@@ -3,9 +3,9 @@
     <LINK REL=StyleSheet HREF="markov.css" TYPE="text/css">
     <title>evolmod: R packages for evolutionary modeling</title>
   </head>
-  
+
   <body>
-  
+
   	<h2>Available R packages:</h2>
   	<ul>
   	<li><a href="#rbrothers">rbrothers</a> - detects recombination using a Bayesian multiple change-point model
@@ -13,171 +13,158 @@
   	<li><a href="#synDss">synDss</a> - detects recombination using synonymous and/or nonsynonymous distances
   	<li><a href="#phyloRcppExamples">phyloRcppExamples</a> - playground for Rcpp applied to phylogenetic algorithms
   	</ul>
-  
+
   	<a name="rbrothers"></a>
   	<hr>
 	<h2>R package: rbrothers</h2>
-	  
+
 	  <b>Developers</b>:
 	  <a href="http://www.stat.washington.edu/people/people.php?id=359" target="_blank">Jan Irvahn</a>,
 	  <a href="http://www.stat.washington.edu/vminin/" target="_blank">Vladimir Minin</a><br><br>
-	  	
+
 	  <b>Contact</b>: <a href="http://www.stat.washington.edu/vminin/" target="_blank">Vladimir Minin</a>,
 	  <img SRC = "email.png" BORDER = "0", width="180"> <br><br>
-	  
-	  <b>Overview</b>: R package rbrothers provides easy access to recombination detection software 
+
+	  <b>Overview</b>: R package rbrothers provides easy access to recombination detection software
 	  <a href="http://faculty.biomath.ucla.edu/msuchard/htdocs/DualBrothers/" target="_blank">DualBrothers</a>
 	  and provides new functionality for pre-processing sequence data and post-processing DualBrothers output.
 	  <br><br>
-	  
-	  <b>Source code</b> (anonymous subversion access): <pre>svn checkout svn://scm.r-forge.r-project.org/svnroot/evolmod/pkg/rbrothers</pre>
 
-Source code of DualBrothers is available <a href="http://code.google.com/p/dual-brothers/" target="_blank">here</a>.<br><br>
+	  <b>Source code</b>: <a href="https://github.com/vnminin/rbrothers" target="_blank">https://github.com/vnminin/rbrothers</a><br><br>
 
-	  
-	  <b>Installation</b>: 
-	  <ol>
-	  <li> Make sure you have the latest version of R. Among other dependencies, rbrothers relies on the <a href="http://cran.r-project.org/web/packages/rJava/index.html" target="_blank">rJava</a> package, which
-in turn requires access to Java Development Kit (JDK). See 
-<a href="http://www.rforge.net/rJava/" target="_blank">rJava web page</a> for more details. 
-	  <li> In R terminal, install dependencies by typing 
-	  <pre> install.packages(c("ape","rJava"))</pre> 
-	  <li>In R terminal, type 
-<pre> install.packages("rbrothers", repos="http://R-Forge.R-project.org")</pre> 
-	  <li> <font size="4" color="red">Attention Mac OS X users:</font> R-forge (temporarily?) stopped providing
-	  binaries for Mac OS X, so the previous step won't work for you. Instead, download this 
-	  <a href="rbrothers.tar">source file</a> to your Desktop and type in R terminal:
-	  <pre> >install.packages("~/Desktop/rbrothers.tar", repos = NULL, type="source")</pre>
-	  </ol>	
-      
+Source code of DualBrothers is available <a href="https://github.com/vnminin/dual-brothers" target="_blank">here</a>.<br><br>
+
+
+	  <b>Installation</b>: see Readme on github <a href="https://github.com/vnminin/rbrothers" target="_blank">https://github.com/vnminin/rbrothers</a>
+
       &nbsp <br>
 
-        <b>Tutorial</b>: The best way to start learning how to use <code>rbrothers</code> is to go through our vignette 
-	<a href="rbrothers_tutorial.pdf" target="_blank">rbrothers_tutorial.pdf</a>, also available in the Sweave format: 
+        <b>Tutorial</b>: The best way to start learning how to use <code>rbrothers</code> is to go through our vignette
+	<a href="rbrothers_tutorial.pdf" target="_blank">rbrothers_tutorial.pdf</a>, also available in the Sweave format:
 	<a href="rbrothers_tutorial.Rnw" target="_blank">rbrothers_tutorial.Rnw</a>.
 
 	<br><br>
 
 	<b>Demos</b>: We provide the following scripts demonstrating the usage of the package.
 	<ol>
-	  <li> E. coli <i>fimH</i> (runs for about 2 minutes): 
+	  <li> E. coli <i>fimH</i> (runs for about 2 minutes):
 	 <pre>
 	  demo("fimH_example", package="rbrothers")
 	 </pre>
 
-	  <li> Salmonella <i>fimH</i> and <i>fimA</i> (<font size="3" color="red">Warning</font>: runs for a couple of hours, because MCMC was mixing poorly, so the number of iterations was bumped to 51 M): 	
+	  <li> Salmonella <i>fimH</i> and <i>fimA</i> (<font size="3" color="red">Warning</font>: runs for a couple of hours, because MCMC was mixing poorly, so the number of iterations was bumped to 51 M):
 	 <pre>
 	  demo("salmonella_example", package="rbrothers")
 	 </pre>
 	</ol>
-	For a list of demos available in the package, type 
+	For a list of demos available in the package, type
 	<pre>
 	  demo(package="rbrothers")
 	</pre>
 	If you want to copy and modify one of the demo R scripts, you can use the system.file() command to find the location
 	of the script in your tree directory:
 	<pre>
-	  system.file("demo", "fimH_example.R", package="rbrothers")	  
+	  system.file("demo", "fimH_example.R", package="rbrothers")
 	</pre>
-	
+
       <b>References</b>:<br>
-      <ul> 
+      <ul>
      <li> Irvahn J, Chattopadhyay S, Sokurenko EV, Minin VN.
 <a href="http://www.la-press.com/rbrothers-r-package-for-bayesian-multiple-change-point-recombination-d-article-a3718" target="_blank">
-rbrothers: R package for Bayesian multiple change-point recombination detection</a>, <i>Evolutionary Bioinformatics</i>, 
-	  9, 235-238, 2013. 
+rbrothers: R package for Bayesian multiple change-point recombination detection</a>, <i>Evolutionary Bioinformatics</i>,
+	  9, 235-238, 2013.
 	<li> Minin VN, Dorman KS, Suchard MA.
-	 <a href ="http://bioinformatics.oxfordjournals.org/content/21/13/3034.long" target="_blank">Dual 
-	 multiple change-point model leads to more accurate recombination detection</a>, 
+	 <a href ="http://bioinformatics.oxfordjournals.org/content/21/13/3034.long" target="_blank">Dual
+	 multiple change-point model leads to more accurate recombination detection</a>,
 	 <i>Bioinformatics</i>, 21:3034-3042, 2005.
 	<li> Suchard MA, Weiss RE, Dorman KS and Sinsheimer JS.
-         <a href="http://www.tandfonline.com/doi/abs/10.1198/016214503000215" target="_blank">Inferring spatial 
-	 phylogenetic variation along nucleotide sequences: 
-	 a multiple change-point model</a>, <i>Journal of the American Statistical Association</i> 
+         <a href="http://www.tandfonline.com/doi/abs/10.1198/016214503000215" target="_blank">Inferring spatial
+	 phylogenetic variation along nucleotide sequences:
+	 a multiple change-point model</a>, <i>Journal of the American Statistical Association</i>
 	 98:427-437, 2003.
 	<li> Suchard MA, Weiss RE, Dorman KS and Sinsheimer JS.
-	 <a href="http://sysbio.oxfordjournals.org/content/51/5/715.long" target="_blank">Oh brother, 
-	 where art thou? a Bayes factor test for recombination 
-	 with uncertain heritage</a>, 
+	 <a href="http://sysbio.oxfordjournals.org/content/51/5/715.long" target="_blank">Oh brother,
+	 where art thou? a Bayes factor test for recombination
+	 with uncertain heritage</a>,
 	 <i>Systematic Biology</i> 51:715-728, 2002.
       </ul>
 
-      
+
     <a name="robustDist"></a>
     <hr>
-    <h2>R package: robustDist</h2>  
-      
+    <h2>R package: robustDist</h2>
+
     <a name="synDss"></a>
-    <hr>  
-    <h2>R package: synDss</h2>  
+    <hr>
+    <h2>R package: synDss</h2>
     <b>Developers</b>:
 	  <a href="http://statweb.calpoly.edu/pchi/" target="_blank">Peter Chi</a>,
 	  <a href="http://www.stat.washington.edu/vminin/" target="_blank">Vladimir Minin</a><br><br>
-	  	
+
 	  <b>Contact</b>: <a href="http://statweb.calpoly.edu/pchi/" target="_blank">Peter Chi</a>,
 	  <img SRC = "pchi_email.png" BORDER = "0" width="200"> <br><br>
-	  
+
 	  <b>Overview</b>: R package synDss allows for detection of rare recombination events in molecular sequences.
 	  The method implemented in the synDss package is based on a previously developed scanning window recombination detection method (Dss).
 	  While the original Dss method uses regular molecular sequence distances measured in expected number of substitutions between sequences,
-	  our synDss uses generalized synonymous and nonsynonymous distances measuredin expected number of synonymous and nonsynonymous 
-	  substitutions respectively. This extension allows us to distinguish between recombination and convergent evolution. 
-	   
+	  our synDss uses generalized synonymous and nonsynonymous distances measuredin expected number of synonymous and nonsynonymous
+	  substitutions respectively. This extension allows us to distinguish between recombination and convergent evolution.
+
 	  <br><br>
-	  
+
 	  <b>Source code</b> (anonymous subversion access): <pre>svn checkout svn://scm.r-forge.r-project.org/svnroot/evolmod/pkg/synDss</pre>
 	  <br>
-	   
-	   <b>Installation</b>: 
+
+	   <b>Installation</b>:
 	  <ol>
-	  <li> The first step is to download and install <a href="http://abacus.gene.ucl.ac.uk/software/paml.html" target="_blank">PAML</a>. 
-	      The two programs we need from this software package are <i>codeml</i> and <i>evolver</i>. 
+	  <li> The first step is to download and install <a href="http://abacus.gene.ucl.ac.uk/software/paml.html" target="_blank">PAML</a>.
+	      The two programs we need from this software package are <i>codeml</i> and <i>evolver</i>.
 	      <ul>
           <li>For <i>codeml</i>, the included MS Windows executable (codeml.exe) will work as is on Windows,
 			   and on Linux/Mac, one can compile codeml.c following the PAML installation instructions.
 		  <li> For <i>evolver</i>, we need to compile it in a slightly different way in order to allow for variable dN/dS rates at
 			   each site (i.e. the M3 model). Essentially, we need to go to the PAML subdirectory that contains evolver.c, and type:
 			   <pre>gcc -O4 -DCodonNSsites -o evolverNSsites evolver.c tools.c -lm</pre>
-			   This is assuming that a gcc compiler is installed on your machine, e.g. through RTools if you are using Windows. See 
+			   This is assuming that a gcc compiler is installed on your machine, e.g. through RTools if you are using Windows. See
 			    <a href="http://petrov.stanford.edu/software/src/paml3.15/Technical/Simulation/Codon/CodonSimulation.txt" target="_blank">this README file</a>
 			   for more details.
-		   <li> Put the binary files <i>codeml</i> and <i>evolverNSsites</i> into your environmental variable PATH or if you don't know how to do this, 
+		   <li> Put the binary files <i>codeml</i> and <i>evolverNSsites</i> into your environmental variable PATH or if you don't know how to do this,
 		   just record the full directory path to these file, so you can pass this information to synDss functions.
 	   </ul>
-	  <li> In R terminal, install dependencies by typing 
-	  <pre>>install.packages(c("ape","phangorn", "seqinr"))</pre> and <pre>>install.packages("robustDist", repos="http://R-Forge.R-project.org")</pre> 
-	  	(see <a href="#robustDist">robustDist</a> for more info on installation of this package) 
-	  <li>In R terminal, type 
-<pre> install.packages("synDss", repos="http://R-Forge.R-project.org")</pre> 
+	  <li> In R terminal, install dependencies by typing
+	  <pre>>install.packages(c("ape","phangorn", "seqinr"))</pre> and <pre>>install.packages("robustDist", repos="http://R-Forge.R-project.org")</pre>
+	  	(see <a href="#robustDist">robustDist</a> for more info on installation of this package)
+	  <li>In R terminal, type
+<pre> install.packages("synDss", repos="http://R-Forge.R-project.org")</pre>
 	  <li> <font size="4" color="red">Attention Mac OS X users:</font> R-forge (temporarily?) stopped providing
-	  binaries for Mac OS X, so the previous step won't work for you. Instead, download this 
+	  binaries for Mac OS X, so the previous step won't work for you. Instead, download this
 	  <a href="synDss.tar">source file</a> to your Desktop and type in R terminal:
 	  <pre> >install.packages("~/Desktop/synDss.tar", repos = NULL, type="source")</pre>
-	  </ol>	
-	    
+	  </ol>
+
 	  <b>References</b>:<br>
-      <ul> 
+      <ul>
       <li> Chi P, Chattopadhyay S, Sokurenko EV, Minin VN. Untangling Convergent Evolution and Recombination,
       <i>to be posted on arxiv soon</i>, 2013.
-      <li> McGuire G, Wright F, Prentice MJ. A graphical method for detecting recombination in phylogenetic data sets, 
+      <li> McGuire G, Wright F, Prentice MJ. A graphical method for detecting recombination in phylogenetic data sets,
       <i>Molecular Biology and Evolution</i>, 14:1125-1131, 1997.
      <li>O'Brien JD, Minin VN, Suchard MA. Learning to count: robust estimates for labeled distances between molecular sequences,
      <i>Molecular Biology and Evolution</i>, 26:801-814, 2009.
-     </ul>   
-	    
+     </ul>
+
     <a name="phyloRcppExamples"></a>
-    <hr>  
-	<h2>R package: phyloRcppExamples </h2>    
+    <hr>
+	<h2>R package: phyloRcppExamples </h2>
 	  <b>Developers</b>:
 	  <a href="http://www.stat.washington.edu/vminin/" target="_blank">Vladimir Minin</a><br><br>
-	  	
+
 	  <b>Contact</b>: <a href="http://www.stat.washington.edu/vminin/" target="_blank">Vladimir Minin</a>,
 	  <img SRC = "email.png" BORDER = "0"> <br><br>
-	  
+
 	  <b>Overview</b>: R package phyloRcppExamples illustrates how to implement some calculations required
-for phylogenetic inference using a combination of R and C++ code, using Rcpp package. Currently, the only useful 
+for phylogenetic inference using a combination of R and C++ code, using Rcpp package. Currently, the only useful
 example is a </a href="http://markovjumps.blogspot.com/2012/01/packaging-and-exposing-rcpp-functions.html" target="_blank">phylogenetic likelihood calculator</a>.<br><br>
-	  
+
 	  <b>Source code</b> (anonymous subversion access): <pre>svn checkout svn://scm.r-forge.r-project.org/svnroot/evolmod/pkg/phyloRcppExamples</pre>
 
 
